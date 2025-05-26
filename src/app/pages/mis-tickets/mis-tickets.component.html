@@ -1,0 +1,178 @@
+<main class="font-poppins flex flex-col h-full">
+  <ng-container *ngIf="!(logged$ | async); else contenidoTickets">
+    <section class="flex-1 flex flex-col items-center justify-center text-center
+           text-white p-10 pt-20 md:pt-10 overflow-auto">
+      <h2 class="text-5xl font-oswald mb-4 drop-shadow-lg">
+        ¡Aún no has iniciado sesión!
+      </h2>
+      <p class="max-w-xl mb-8 text-lg">
+        Necesitas una cuenta de OctoBets para acceder a esta sección.
+      </p>
+
+      <div class="flex gap-6">
+        <button routerLink="/login" class="px-8 py-3 rounded-full bg-primary hover:bg-primary-dark
+                     text-white font-semibold shadow-lg transition">
+          Iniciar sesión
+        </button>
+        <button routerLink="/registro" class="px-8 py-3 rounded-full bg-white/20 border border-white
+                     font-semibold hover:bg-white/30 transition shadow-lg">
+          ¡Crear cuenta!
+        </button>
+      </div>
+
+      <img src="/assets/images/triste.png" alt="Ilustración"
+        class="w-32 md:w-40 mt-10 drop-shadow-2xl select-none pointer-events-none" />
+    </section>
+  </ng-container>
+  <ng-template #contenidoTickets>
+
+    <!-- ------------------ MODAL “¿Cómo funciona?” ------------------ -->
+    <div *ngIf="showHelpModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div class="bg-surface-light font-poppins rounded-2xl max-w-md w-full p-6 relative">
+        <!-- Botón cerrar -->
+        <button (click)="closeHelp()" class="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
+          <mat-icon>close</mat-icon>
+        </button>
+
+        <!-- Contenido del modal -->
+        <h3 class="text-2xl font-oswald text-center mb-4">¿Cómo funciona?</h3>
+        <div class="flex flex-col items-center gap-4">
+          <!-- Mascota -->
+          <img src="/assets/images/asas.png" alt="Mascota explicativa" class=" h-24 drop-shadow-lg" />
+
+          <!-- Texto -->
+          <p class="text-gray text-sm text-center">
+            En esta sección encontrarás todos tus tickets de apuesta.
+            Usa los filtros para buscar por título, estado o tipo,
+            y activa “Mostrar solo ganadoras” para ver únicamente las apuestas que han sido ganadoras.
+          </p>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-6 flex justify-center">
+          <button (click)="closeHelp()"
+            class="px-6 py-2 bg-primary text-white rounded-full hover:bg-primary-dark transition">
+            ¡Entendido!
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER --------------------------------------------------->
+    <header class="flex justify-between items-center mb-8">
+      <h2 class="text-text-primary text-4xl font-oswald font-bold tracking-widest">
+        MIS TICKETS
+      </h2>
+
+      <button (click)="openHelp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                 bg-primary hover:bg-primary-dark text-white transition">
+        <mat-icon>help_outline</mat-icon>
+        ¿Cómo funciona?
+      </button>
+    </header>
+
+    <!-- BARRA DE FILTRO -------------------------------------------------->
+    <section class="flex flex-col gap-4 bg-surface rounded-2xl p-6 mb-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
+        <!-- buscador -->
+        <div class="relative col-span-2">
+          <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            search
+          </mat-icon>
+          <input type="text" [(ngModel)]="search" placeholder="Buscar ticket…" (input)="filtrar()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
+               rounded-xl text-text-primary placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-primary" />
+        </div>
+
+        <!-- filtro estado -->
+        <select [(ngModel)]="filtroEstado" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los estados</option>
+          <option *ngFor="let s of estados" [value]="s">{{ s }}</option>
+        </select>
+
+        <!-- filtro tipo -->
+        <select [(ngModel)]="filtroTipo" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los tipos</option>
+          <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+        </select>
+      </div>
+
+      <!-- Switch “Ganadoras” -->
+      <label class="inline-flex items-center gap-2 mt-2 text-sm">
+        <input type="checkbox" [(ngModel)]="soloGanadoras" (change)="filtrar()" class="form-checkbox text-success" />
+        Mostrar solo ganadoras
+      </label>
+    </section>
+
+    <!-- GRID DE TICKETS -------------------------------------------------->
+    <div class="relative flex-1 overflow-hidden rounded-3xl">
+      <div class="absolute inset-0 overflow-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-normal p-0.5">
+          <!-- ticket -->
+          <article *ngFor="let tk of ticketsFiltrados" class="bg-surface-light p-normal rounded-3xl flex flex-col gap-4
+                      shadow-lg hover:shadow-xl transition border-2" [ngClass]="{
+                 'border-info':            tk.estado === apuestaEstado.ABIERTA,
+                 'border-warning':         tk.estado === apuestaEstado.CERRADA,
+                 'border-surface-dark':    tk.estado === apuestaEstado.CANCELADA,
+                 'border-success':         tk.estado === apuestaEstado.RESUELTA && tk.ganadora,
+                 'border-danger':          tk.estado === apuestaEstado.RESUELTA && !tk.ganadora
+               }">
+
+            <!-- Encabezado -->
+            <div class="flex justify-between items-start gap-2">
+              <h3 class="text-lg font-medium text-text-primary leading-snug w-9/12 line-clamp-2">
+                {{ tk.apuestaTitulo }}
+              </h3>
+              <span class="chip !bg-surface text-xs font-semibold">
+                {{ tk.estado }}
+              </span>
+            </div>
+
+            <!-- Opción elegida + cuota -->
+            <p class="text-text-secondary text-sm">
+              Elegiste:
+              <span class="font-semibold text-text-primary">{{ tk.opcion }}</span>
+              — cuota <span class="font-medium text-primary">{{ tk.cuota | number:'1.2-2' }}</span>
+            </p>
+
+            <!-- Importe y ganancia / potencial -->
+            <div class="text-sm font-poppins flex flex-col gap-1">
+              <span class="text-gray-400">Apostado: {{ tk.cantidad | currency:'EUR':'symbol':'1.0-0' }}</span>
+
+              <ng-container *ngIf="tk.estado==='Resuelta'; else futuro">
+                <span [class.text-success]="tk.ganadora" [class.text-danger]="!tk.ganadora" class="font-bold">
+                  {{ tk.ganadora ? 'Ganancia' : 'Pérdida' }}:
+                  {{ tk.ganancia | currency:'EUR':'symbol':'1.0-0' }}
+                </span>
+              </ng-container>
+
+              <ng-template #futuro>
+                <span class="text-warning font-semibold">
+                  Potencial:
+                  {{ tk.cantidad * tk.cuota | currency:'EUR':'symbol':'1.0-0' }}
+                </span>
+              </ng-template>
+            </div>
+
+            <!-- Fecha ticket -->
+            <p class="text-xs text-gray-500 mt-auto">
+              {{ tk.fecha | date:'short' }}
+            </p>
+
+          </article>
+        </div>
+      </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-16
+              bg-gradient-to-b from-transparent to-surface
+              pointer-events-none"></div>
+    </div>
+  </ng-template>
+</main>

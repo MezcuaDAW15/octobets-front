@@ -1,0 +1,48 @@
+<div class="h-full w-full overflow-hidden">
+  <div class="flex h-full">
+
+    <!-- ▸ Columna izquierda (logo + aside + saldo) -->
+    <aside class="w-72 lg:w-80 flex flex-col pr-normal">
+      <!-- Logo -->
+      <div class="mb-normal flex justify-center">
+        <img src="assets/images/complete-logo.png" alt="OctoBets logo" class="w-8/12" />
+      </div>
+
+      <!-- Lista aside -->
+      <div class="flex-1 overflow-y-auto">
+        <app-apuestas-aside></app-apuestas-aside>
+      </div>
+
+      <!-- Dinero -->
+      <app-dinero class="mt-normal"></app-dinero>
+    </aside>
+
+    <!-- ▸ Columna derecha -->
+    <section class="flex-1 flex flex-col gap-normal overflow-hidden">
+
+      <!-- Banner -->
+      <app-bonus-banner></app-bonus-banner>
+
+      <!-- Apuestas mas top -->
+      <div class="w-64 h-5 inline-flex items-center gap-2.5">
+        <h3 class="text-sm text-text-secondary">APUESTAS CON MAS FICHAS ACTIVAS</h3>
+      </div>
+      <div class="flex-1 relative overflow-hidden rounded-3xl">
+        <div class="absolute inset-0 overflow-auto">
+          <div class="flex flex-col gap-6">
+            <app-apuesta-big-card class="cursor-pointer" *ngFor="let ap of topApuestas" [titulo]="ap.titulo"
+              [descripcion]="ap.descripcion" [estado]="ap.estado"
+              [cuotas]="[ap.opciones[0].cuota, ap.opciones[1].cuota]"
+              [descriptions]="[ap.opciones[0].descripcion, ap.opciones[1].descripcion]" [tipo]="ap.tipo"
+              (click)="verApuesta(ap.id!)">
+            </app-apuesta-big-card>
+          </div>
+        </div>
+        <div class="absolute bottom-0 left-0 right-0 h-24
+                    bg-gradient-to-b from-transparent to-surface
+                    pointer-events-none"></div>
+      </div>
+
+    </section>
+  </div>
+</div>

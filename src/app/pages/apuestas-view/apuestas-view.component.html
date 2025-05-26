@@ -1,0 +1,130 @@
+<div class="flex flex-col h-full w-full gap-normal">
+  <!-- Modal “¿Cómo funciona?”-->
+  <ng-container *ngIf="showHelpModal">
+    <!-- Backdrop -->
+    <div class="fixed inset-0 bg-black/50 z-50" (click)="closeHelp()"></div>
+    <!-- Contenido -->
+    <div class="fixed inset-0 flex items-center justify-center z-50 p-4" (click)="$event.stopPropagation()">
+      <div class="bg-surface-light rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden">
+        <!-- Cabecera -->
+        <header class="flex justify-between items-center px-6 py-4 border-b">
+          <h3 class="text-2xl font-semibold text-gray">
+            Cómo funciona este listado
+          </h3>
+          <button (click)="closeHelp()" class="text-gray-500 hover:text-gray-700 transition">
+            <mat-icon>close</mat-icon>
+          </button>
+        </header>
+        <!-- Cuerpo -->
+        <div class="p-6 text-gray space-y-4">
+          <p>En esta pantalla puedes:</p>
+          <ul class="list-disc list-inside space-y-2">
+            <li>
+              <strong>Buscar</strong> una apuesta concreta por su título.
+            </li>
+            <li>
+              <strong>Añadir filtros</strong> para mostrar solo los tipos que te interesen.
+            </li>
+            <li>
+              <strong>Gestionar tus apuestas</strong> con el botón dedicado.
+            </li>
+            <li>
+              <strong>Pulsar</strong> sobre cualquier apuesta para ver los detalles y apostar.
+            </li>
+          </ul>
+          <div class="flex justify-center mt-6">
+            <img src="/assets/images/nosabe.png" alt="Octo, la mascota de OctoBets" class="h-24 object-cover" />
+          </div>
+        </div>
+        <!-- Footer -->
+        <div class="px-6 py-4 border-t text-right">
+          <button (click)="closeHelp()"
+            class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
+            ¡Entendido!
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Header -->
+  <header class="flex justify-between items-center">
+    <h2 class="text-text-primary text-4xl font-semibold font-oswald tracking-widest">
+      APUESTAS
+    </h2>
+    <button (click)="openHelp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                 bg-primary hover:bg-primary-dark text-white transition">
+      <mat-icon>help_outline</mat-icon>
+      ¿Cómo funciona?
+    </button>
+  </header>
+
+  <!-- BARRA DE BÚSQUEDA + GESTIÓN + FILTROS -->
+  <div class="w-full">
+    <div class="flex items-center gap-4">
+
+      <!-- Barra de búsqueda -->
+      <div class=" lg:flex-[2.15] md:flex-[2] flex items-center px-4 py-2.5 bg-primary-dark/25 rounded-[20px]
+                outline outline-2 outline-offset-[-2px] outline-primary-dark/90 min-h-[3.5rem]">
+        <mat-icon class="text-primary-dark mr-2">search</mat-icon>
+        <input type="text" placeholder="Buscar apuesta..." [(ngModel)]="searchTerm" (input)="filtrarPorTexto()"
+          class="bg-transparent focus:outline-none text-fuchsia-50 placeholder-fuchsia-300 text-base font-poppins w-full" />
+      </div>
+
+      <!-- Botón “Añade filtros” -->
+      <div class="flex-1 px-5 py-3 rounded-[20px]
+                outline outline-2 outline-offset-[-2px] outline-primary-dark/50
+                flex items-center gap-2.5 cursor-pointer min-h-[3.5rem]" (click)="toggleFilters()">
+        <mat-icon class="w-6 h-6 text-primary-dark/70">filter_list</mat-icon>
+        <span class="text-text-primary/70 text-base font-light font-poppins flex-1 text-center">
+          Añade filtros
+        </span>
+        <mat-icon class="w-4 h-4 text-primary-dark/70 rotate-90">arrow_drop_down</mat-icon>
+      </div>
+
+      <!-- Botón “Gestiona tus Apuestas” -->
+      <div class="flex-1 px-5 py-3 rounded-[20px]
+                outline outline-2 outline-offset-[-2px] outline-primary-dark/50
+                flex items-center gap-2.5 cursor-pointer min-h-[3.5rem]" (click)="goToMisApuestas()">
+        <mat-icon class="w-6 h-6 text-primary-dark/70">filter_list</mat-icon>
+        <span class="text-text-primary/70 text-base font-light font-poppins flex-1 text-center">
+          Gestiona tus Apuestas
+        </span>
+        <mat-icon class="w-4 h-4 text-primary-dark/70 rotate-180">arrow_drop_down</mat-icon>
+      </div>
+
+    </div>
+  </div>
+
+
+
+
+  <!-- PANEL DE FILTROS POR TIPO -->
+  <div *ngIf="showFilters" class="flex flex-wrap gap-2 px-7 items-center">
+    <span class="text-text-primary text-sm font-medium">Filtrar por tipo:</span>
+    <button *ngFor="let t of tipos" (click)="toggleTipo(t)" [ngClass]="{
+        'bg-primary text-white': selectedTipos.has(t),
+        'bg-surface text-gray-200': !selectedTipos.has(t)
+      }" class="px-3 py-1 rounded-full text-sm font-poppins hover:opacity-80 transition">
+      {{ t }}
+    </button>
+  </div>
+
+  <!-- GRID DE APUESTAS CON SCROLL -->
+  <div class="relative flex-1 overflow-hidden rounded-3xl">
+    <div class="absolute inset-0 overflow-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <app-apuesta-big-card *ngFor="let apuesta of apuestasFiltradas" [titulo]="apuesta.titulo"
+          [descripcion]="apuesta.descripcion" [estado]="apuesta.estado"
+          [cuotas]="[ apuesta.opciones[0].cuota, apuesta.opciones[1].cuota ]"
+          [descriptions]="[ apuesta.opciones[0].descripcion, apuesta.opciones[1].descripcion ]" [tipo]="apuesta.tipo"
+          class="cursor-pointer" (click)="verApuesta(apuesta.id!)">
+        </app-apuesta-big-card>
+
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 h-24
+                bg-gradient-to-b from-transparent to-surface
+                pointer-events-none"></div>
+  </div>
+</div>

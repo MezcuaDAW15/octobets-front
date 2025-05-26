@@ -1,0 +1,74 @@
+<nav class="h-full font-poppins bg-gradient-to-b from-navbar-color to-navbar-color/80
+         rounded-3xl flex flex-col p-4 md:p-6
+         w-20 md:w-64 transition-[width] duration-200">
+
+  <!-- Logos -->
+  <img src="/assets/images/isotipo.png"
+    class="w-8 h-10 mb-5 mx-auto md:hidden hover:scale-105 transition cursor-pointer" (click)="go('/')"
+    alt="logo compacto" />
+  <img src="/assets/images/complete-logo.png"
+    class="hidden md:block w-40 mx-auto mb-10 hover:scale-105 transition cursor-pointer" (click)="go('/')"
+    alt="logo completo" />
+
+  <!-- Nav -->
+  <ul class="flex-1 flex flex-col gap-3 text-white">
+    <li>
+      <button (click)="go('/mis-apuestas')" class="sidebar-btn">
+        <mat-icon>sports_soccer</mat-icon>
+        <span class="hidden md:inline">Mis Apuestas</span>
+      </button>
+    </li>
+    <li>
+      <button (click)="go('/apuestas')" class="sidebar-btn  justify-start">
+        <mat-icon>public</mat-icon>
+        <span class="hidden md:inline justify-start">Todas las Apuestas</span>
+      </button>
+    </li>
+    <li>
+      <button (click)="go('/apuestas/tickets')" class="sidebar-btn">
+        <mat-icon>confirmation_number</mat-icon>
+        <span class="hidden md:inline">Mis Tickets</span>
+      </button>
+    </li>
+  </ul>
+  <ng-container *ngIf="user$ | async as u; else loginCTA">
+
+    <!-- Ajustes -->
+    <button (click)="go('/ajustes')" class="sidebar-btn mb-3 border-t border-white/20 pt-4">
+      <mat-icon>settings</mat-icon>
+      <span class="hidden md:inline">Ajustes</span>
+    </button>
+
+    <div class="sidebar-btn flex flex-col md:flex-row items-center gap-2
+            bg-white/20 hover:bg-white/30 cursor-default">
+      <!-- Avatar -->
+      <img *ngIf="u.avatar" [src]="'/assets/images/avatars/' + u.avatar" alt="avatar"
+        class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover ring-2 ring-primary" />
+
+      <!-- Username oculto en small -->
+      <span class="hidden md:inline truncate">{{ u.username }}</span>
+
+      <!-- Botón logout -->
+      <button (click)="logout()" aria-label="Salir" class="mt-2 md:mt-0 md:ml-auto flex items-center justify-center
+                 w-8 h-8 md:w-10 md:h-10
+                 border border-primary rounded
+                 hover:bg-primary/10 transition">
+        <mat-icon class="text-primary text-base">logout</mat-icon>
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- Botón login -->
+  <ng-template #loginCTA>
+    <button (click)="go('/login')" class="sidebar-btn bg-primary hover:bg-primary-dark text-white">
+      <mat-icon>login</mat-icon>
+      <span class="hidden md:inline">Iniciar sesión</span>
+    </button>
+  </ng-template>
+</nav>
+
+<style>
+  .sidebar-btn {
+    @apply w-full flex items-center gap-4 px-3 py-3 rounded-xl justify-center md:justify-start bg-white/10 hover:bg-white/20 transition;
+  }
+</style>

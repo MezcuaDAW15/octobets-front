@@ -1,0 +1,32 @@
+<div class="flex flex-col h-full">
+  <!-- Etiqueta -->
+  <div class="w-64 h-5 inline-flex items-center gap-2.5">
+    <h3 class="text-sm text-text-secondary mb-2">APUESTAS</h3>
+  </div>
+
+  <!-- Contenedor de cards -->
+  <div class="
+      flex flex-col
+      flex-1
+      overflow-y-auto
+      gap-3
+      pr-2
+    ">
+    <app-apuesta-card class="cursor-pointer" *ngFor="let apuesta of apuestas" [titulo]="apuesta.titulo"
+      [estado]="apuesta.estado" [cuotas]="[ apuesta.opciones[0].cuota, apuesta.opciones[1].cuota ]"
+      (click)="verApuesta(apuesta.id!)">
+    </app-apuesta-card>
+  </div>
+
+  <!-- Botón fijo -->
+  <div class="pt-3">
+    <button class="w-full py-2 px-4
+             bg-gradient-to-r from-info to-blue-900
+             hover:from-info hover:to-blue-800
+             text-white rounded-full text-sm font-medium
+             transition duration-300 shadow-md" [routerLink]="['/apuestas']">
+      Ver más apuestas
+    </button>
+  </div>
+
+</div>

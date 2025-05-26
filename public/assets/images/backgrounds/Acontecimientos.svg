@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 327.76 331.78">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-linejoin: round;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #1d1d1b;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-width: 14.17px;
+      }
+
+      .cls-2 {
+        stroke-width: 12.64px;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <g id="Capa_4" data-name="Capa 4">
+    <g>
+      <path class="cls-3" d="M273.83,37.12h33.83c7.19,0,13.01,5.83,13.01,13.01v261.54c0,7.19-5.83,13.01-13.01,13.01H20.1c-7.19,0-13.01-5.83-13.01-13.01V50.13c0-7.19,5.83-13.01,13.01-13.01h33.83"/>
+      <line class="cls-3" x1="83.21" y1="37.12" x2="244.56" y2="37.12"/>
+      <rect class="cls-2" x="40.53" y="124.95" width="246.71" height="170.46" rx="7.15" ry="7.15"/>
+      <line class="cls-3" x1="6.94" y1="97.92" x2="320.54" y2="97.92"/>
+      <polygon class="cls-1" points="163.88 149.17 179.03 195.78 228.03 195.78 188.39 224.59 203.53 271.2 163.88 242.39 124.23 271.2 139.38 224.59 99.73 195.78 148.74 195.78 163.88 149.17"/>
+      <rect class="cls-1" x="53.93" y="7.09" width="29.28" height="60.07" rx="9.85" ry="9.85"/>
+      <rect class="cls-1" x="244.56" y="7.09" width="29.28" height="60.07" rx="9.85" ry="9.85"/>
+    </g>
+  </g>
+</svg>

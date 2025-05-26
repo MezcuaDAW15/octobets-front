@@ -1,0 +1,196 @@
+<main class="font-poppins flex flex-col gap-6">
+
+  <ng-container *ngIf="!(logged$ | async); else contenidoVista">
+    <section class="flex-1 flex flex-col items-center justify-center text-center
+
+           text-white p-10 pt-20 md:pt-10 overflow-auto">
+      <h2 class="text-5xl font-oswald mb-4 drop-shadow-lg">
+        ¡Aún no has iniciado sesión!
+      </h2>
+      <p class="max-w-xl mb-8 text-lg">
+        Necesitas una cuenta de OctoBets para acceder a esta sección.
+      </p>
+
+      <div class="flex gap-6">
+        <button routerLink="/login" class="px-8 py-3 rounded-full bg-primary hover:bg-primary-dark
+                     text-white font-semibold shadow-lg transition">
+          Iniciar sesión
+        </button>
+        <button routerLink="/registro" class="px-8 py-3 rounded-full bg-white/20 border border-white
+                     font-semibold hover:bg-white/30 transition shadow-lg">
+          ¡Crear cuenta!
+        </button>
+      </div>
+
+      <img src="/assets/images/triste.png" alt="Ilustración"
+        class="w-32 md:w-40 mt-10 drop-shadow-2xl select-none pointer-events-none" />
+    </section>
+  </ng-container>
+  <ng-template #contenidoVista>
+    <!-- HEADER -->
+    <header class="flex justify-between items-center">
+      <h2 class="text-text-primary text-4xl font-semibold font-oswald tracking-widest">
+        MIS APUESTAS
+      </h2>
+      <button (click)="crearNuevaApuesta()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-success hover:bg-success-dark
+             text-white font-poppins rounded-full transition">
+        <mat-icon>add</mat-icon>
+        Crear apuesta
+      </button>
+    </header>
+
+    <!-- BARRA DE FILTRO -------------------------------------------------->
+    <section class="flex flex-col gap-4 bg-surface rounded-2xl p-6 mb-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
+        <!-- buscador -->
+        <div class="relative col-span-2">
+          <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            search
+          </mat-icon>
+          <input type="text" [(ngModel)]="search" placeholder="Buscar ticket…" (input)="filtrar()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
+               rounded-xl text-text-primary placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-primary" />
+        </div>
+
+        <!-- filtro estado -->
+        <select [(ngModel)]="filtroEstado" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los estados</option>
+          <option *ngFor="let s of estados" [value]="s">{{ s }}</option>
+        </select>
+
+        <!-- filtro tipo -->
+        <select [(ngModel)]="filtroTipo" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los tipos</option>
+          <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+        </select>
+
+      </div>
+
+
+    </section>
+
+    <!-- APUESTAS DEL USUARIO -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngFor="let apuesta of filtradas"
+        class="flex flex-col justify-between h-36 p-6 rounded-3xl overflow-hidden cursor-pointer"
+        [ngClass]="gradientClass(apuesta.estado)" (click)="verApuesta(apuesta.id!)">
+        <!-- Título y descripción -->
+        <div class="flex flex-col justify-between h-full mb-2">
+          <div class="text-text-primary text-xl font-semibold font-poppins leading-tight line-clamp-2 break-words">
+            {{ apuesta.titulo }}
+          </div>
+          <div class="text-text-primary text-sm font-light font-poppins leading-tight line-clamp-2 break-words">
+            {{ apuesta.descripcion }}
+          </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="flex justify-end items-center gap-2">
+          <!-- Resuelta -->
+          <span *ngIf="apuesta.estado === apuestaEstado.RESUELTA"
+            class="inline-flex items-center gap-1 px-3 py-1 bg-info text-white text-sm font-poppins rounded-lg">
+            <mat-icon>check_circle</mat-icon>
+            Resuelta
+          </span>
+
+          <!-- Abierta -->
+          <ng-container *ngIf="apuesta.estado === apuestaEstado.ABIERTA">
+            <button (click)="cerrarApuesta(apuesta); $event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1 bg-surface/50 hover:bg-surface/70
+             text-text-primary text-sm font-poppins rounded-lg transition">
+              <mat-icon>lock</mat-icon>
+              Cerrar
+            </button>
+            <button (click)="cancelarApuesta(apuesta); $event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1 bg-danger hover:bg-danger-dark
+             text-white text-sm font-poppins rounded-lg transition">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </ng-container>
+
+          <!-- Cerrada -->
+          <ng-container *ngIf="apuesta.estado === apuestaEstado.CERRADA">
+            <button (click)="resolverApuesta(apuesta); $event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1 bg-info hover:bg-blue-700
+             text-white text-sm font-poppins rounded-lg transition">
+              <mat-icon>check_circle</mat-icon>
+              Resolver
+            </button>
+            <button (click)="cancelarApuesta(apuesta); $event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1 bg-danger hover:bg-danger-dark
+             text-white text-sm font-poppins rounded-lg transition">
+              <mat-icon>cancel</mat-icon>
+              Cancelar
+            </button>
+          </ng-container>
+
+          <!-- Cancelada -->
+          <span *ngIf="apuesta.estado === apuestaEstado.CANCELADA"
+            class="inline-flex items-center gap-1 px-3 py-1 bg-surface-dark text-white text-sm font-poppins rounded-lg">
+            <mat-icon>cancel</mat-icon>
+            Cancelada
+          </span>
+        </div>
+
+
+      </div>
+
+    </div>
+
+    <div *ngIf="apuestaResolver"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+      <div class="bg-surface-light rounded-3xl w-full max-w-lg mx-4 overflow-hidden shadow-2xl">
+        <!-- HEADER DEL MODAL -->
+        <header class="flex justify-between items-center p-6 border-b border-border">
+          <h3 class="text-2xl font-semibold text-text-primary leading-snug">
+            Resolver: {{ apuestaResolver.titulo }}
+          </h3>
+          <button (click)="cancelResolve()" class="text-gray-400 hover:text-text-primary">
+            <mat-icon>close</mat-icon>
+          </button>
+        </header>
+
+        <!-- opciones -->
+        <div class="p-6 space-y-4">
+          <p class="text-text-secondary">
+            Elige la opción ganadora:
+          </p>
+          <div class="grid grid-cols-1 gap-4">
+            <label *ngFor="let opt of apuestaResolver.opciones" class="flex items-center gap-4 p-4 rounded-2xl border border-border cursor-pointer
+                 hover:border-primary transition" [ngClass]="
+            idOpcionSeleccionada === opt.id
+              ? 'border-primary bg-primary/10'
+              : 'bg-transparent'
+          ">
+              <input type="radio" name="winner" [value]="opt.id" [(ngModel)]="idOpcionSeleccionada"
+                class="form-radio text-primary h-5 w-5" required />
+              <div class="flex-1">
+                <div class="text-text-primary font-medium">
+                  {{ opt.descripcion }}
+                </div>
+                <div class="text-text-secondary text-sm">
+                  Cuota: <span class="font-semibold">{{ opt.cuota | number:'1.2-2' }}</span>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end items-center gap-4 p-6 border-t border-border">
+          <button type="button" (click)="cancelResolve()"
+            class="px-6 py-2 rounded-full bg-gray-300 hover:bg-gray-400 text-surface-dark transition">
+            Cancelar
+          </button>
+          <button (click)="confirmResolve()" [disabled]="!idOpcionSeleccionada"
+            class="px-6 py-2 rounded-full bg-success hover:bg-success-dark text-white transition disabled:opacity-50">
+            Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</main>

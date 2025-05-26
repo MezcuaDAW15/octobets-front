@@ -1,1 +1,69 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1f1f1f;
+
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --brand-color: #1f1f1f;
+
+}
+
+@layer base {
+
+  /* Webkit (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: theme('colors.surface');
+    border-radius: theme('borderRadius.card');
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: theme('colors.surface-light');
+    border-radius: theme('borderRadius.card');
+    border: 2px solid theme('colors.surface');
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: theme('colors.primary-dark');
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.surface-light') theme('colors.surface');
+  }
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-size: 1.15em;
+  line-height: 1.5;
+  color: inherit;
+  background-color: inherit;
+}
+
+.chip {
+  @apply inline-flex items-center gap-1 bg-surface text-text-secondary px-3 py-1.5 rounded-full;
+}

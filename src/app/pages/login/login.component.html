@@ -1,0 +1,86 @@
+<main class=" w-full font-poppins flex flex-col h-full max-h-full">
+
+  <!-- ───────── HERO ───────── -->
+  <header class="pb-10 text-center">
+    <h1 class="text-4xl md:text-5xl font-oswald text-primary tracking-widest drop-shadow-lg">
+      ¡BIENVENIDO DE NUEVO A <span class="cursor-pointer" routerLink="/">OCTOBETS!</span>
+    </h1>
+    <p class="mt-2 text-gray-300 max-w-xl mx-auto">
+      Inicia sesión con tu cuenta para retar tus pronósticos.
+    </p>
+  </header>
+
+  <!-- ───────── CONTENIDO PRINCIPAL ───────── -->
+  <section class="flex-1 flex flex-col md:flex-row items-center justify-center gap-16 px-6 pb-10">
+
+    <!-- Ilustración -->
+    <figure class="hidden md:block w-64 animate-bounce-slow">
+      <img src="/assets/images/asas.png" alt="Mascota OctoBets"
+        class="w-full h-auto drop-shadow-2xl select-none pointer-events-none" />
+    </figure>
+
+    <!-- Tarjeta de login -->
+    <form #loginForm="ngForm" (ngSubmit)="entrar(loginForm)" novalidate
+      class="w-full max-w-md bg-surface p-10 rounded-3xl shadow-2xl ring-2 ring-primary backdrop-blur-md space-y-6">
+      <h2 class="text-center text-2xl font-semibold text-text-primary">
+        Iniciar sesión
+      </h2>
+
+      <!-- Email / Username -->
+      <label class="block">
+        <span class="text-sm text-gray-300">Email o usuario</span>
+        <input name="login" type="text" required [(ngModel)]="login" #emailCtrl="ngModel" class="input-base mt-1"
+          placeholder="tucorreo@ejemplo.com" />
+        <small *ngIf="emailCtrl.invalid && emailCtrl.touched" class="text-rose-400">
+          Campo obligatorio.
+        </small>
+      </label>
+
+      <!-- Password -->
+      <label class="block">
+        <span class="text-sm text-gray-300">Contraseña</span>
+        <input name="password" type="password" required [(ngModel)]="password" #passCtrl="ngModel"
+          class="input-base mt-1" placeholder="••••••" />
+        <small *ngIf="passCtrl.invalid && passCtrl.touched" class="text-rose-400">
+          Campo obligatorio.
+        </small>
+      </label>
+
+      <!-- Error global -->
+      <p *ngIf="formError" class="text-center text-rose-400">{{ formError }}</p>
+
+      <!-- Botón -->
+      <button type="submit"
+        class="w-full py-3 rounded-full bg-primary hover:bg-primary-dark text-white font-semibold transition">
+        Entrar
+      </button>
+
+      <p class="text-center text-sm text-text-secondary">
+        ¿No tienes cuenta?
+        <a routerLink="/registro" class="text-primary hover:underline cursor-pointer">Regístrate gratis</a>
+      </p>
+    </form>
+  </section>
+</main>
+
+<style>
+  .input-base {
+    @apply bg-neutral-700 border border-neutral-600 rounded-xl px-4 py-2 text-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary w-full;
+  }
+
+  @keyframes bounce-slow {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 4s infinite;
+  }
+</style>

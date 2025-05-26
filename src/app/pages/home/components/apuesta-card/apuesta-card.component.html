@@ -1,0 +1,32 @@
+<div class="
+    relative w-full rounded-3xl overflow-hidden
+    px-5 py-2.5 flex items-center
+    bg-gradient-to-r from-success-dark to-surface
+  ">
+
+
+  <div class="flex-1 flex justify-between items-center w-full">
+    <!-- Título -->
+    <div class="flex-1 text-white text-base font-semibold font-poppins leading-tight">
+      {{ titulo }}
+    </div>
+
+    <!-- Separador -->
+    <div class="w-5 h-0 rotate-90 border border-white/50"></div>
+
+    <!-- Detalles -->
+    <div class="flex flex-col justify-between items-center">
+      <div class="text-white text-sm font-normal font-poppins">
+        {{ estado }}
+      </div>
+      <div class="flex space-x-2 mt-1">
+        <span class="text-white text-sm font-normal font-poppins">
+          {{ cuotas[0] | number: '1.2-2' }}
+        </span>
+        <span class="text-white text-sm font-normal font-poppins">
+          {{ cuotas[1] | number: '1.2-2' }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

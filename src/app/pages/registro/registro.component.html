@@ -1,0 +1,126 @@
+<main class=" w-full font-poppins flex flex-col h-full max-h-full">
+
+  <!-- ───────── HERO ─────────-->
+  <header class="pb-10 text-center">
+    <h1 class="text-4xl md:text-5xl font-oswald text-primary tracking-widest drop-shadow-lg">
+      CREA TU CUENTA <span class="cursor-pointer" routerLink="/">OCTOBETS</span>
+    </h1>
+    <p class="mt-2 text-gray-300 max-w-xl mx-auto ">
+      ¡Bienvenido! Rellena el formulario y únete a la comunidad para empezar a apostar con nosotros.
+    </p>
+  </header>
+
+  <!-- ───────── CONTENIDO PRINCIPAL ───────── -->
+  <section class="flex-1  flex flex-col md:flex-row items-center justify-center gap-16 px-6 pb-10">
+
+    <!-- lustración -->
+    <figure class="hidden md:block w-64 animate-bounce-slow">
+      <img src="/assets/images/senalando.png" alt="Mascota OctoBets"
+        class="w-full h-auto drop-shadow-2xl select-none pointer-events-none" />
+    </figure>
+
+    <!-- Tarjeta de registro -->
+    <form #regForm="ngForm"
+      class="w-full max-w-lg bg-surface p-10 rounded-3xl shadow-2xl ring-2 ring-primary backdrop-blur-md"
+      (ngSubmit)="registrar(regForm)" novalidate>
+      <h2 class="text-center text-2xl font-semibold text-text-primary mb-8">
+        Únete en segundos
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-4">
+
+        <!-- Nombre -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Nombre<span class="text-rose-500">*</span></span>
+          <input name="nombre" required [(ngModel)]="nombre" #nombreCtrl="ngModel" class="input-base"
+            placeholder="Ej. Laura" />
+          <small *ngIf="nombreCtrl.invalid && nombreCtrl.touched" class="text-rose-400">
+            Obligatorio.
+          </small>
+        </label>
+
+        <!-- Apellidos -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Apellidos</span>
+          <input name="apellidos" [(ngModel)]="apellidos" class="input-base" placeholder="Ej. Torres" />
+        </label>
+
+        <!-- Username -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Username<span class="text-rose-500">*</span></span>
+          <input name="username" required [(ngModel)]="username" #userCtrl="ngModel" class="input-base"
+            placeholder="tu_alias" />
+          <small *ngIf="userCtrl.invalid && userCtrl.touched" class="text-rose-400">
+            Obligatorio.
+          </small>
+        </label>
+
+        <!-- Email -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Email<span class="text-rose-500">*</span></span>
+          <input name="email" type="email" required email [(ngModel)]="email" #emailCtrl="ngModel" class="input-base"
+            placeholder="you@example.com" />
+          <small *ngIf="emailCtrl.errors?.['email'] && emailCtrl.touched" class="text-rose-400">
+            Email no válido.
+          </small>
+        </label>
+
+        <!-- Password -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Contraseña<span class="text-rose-500">*</span></span>
+          <input name="password" type="password" required minlength="5" pattern="(?=.*\d).{5,}" [(ngModel)]="password"
+            #passCtrl="ngModel" class="input-base" placeholder="••••••" />
+          <small *ngIf="passCtrl.invalid && passCtrl.touched" class="text-rose-400">
+            Mín. 5 caracteres y un número.
+          </small>
+        </label>
+
+        <!-- Password 2 -->
+        <label class="flex flex-col gap-1">
+          <span class="text-sm text-gray-300">Repite contraseña<span class="text-rose-500">*</span></span>
+          <input name="password2" type="password" required [(ngModel)]="password2" #pass2Ctrl="ngModel"
+            class="input-base" placeholder="••••••" />
+          <small *ngIf="(pass2Ctrl.touched || pass2Ctrl.dirty) && password2 !== password" class="text-rose-400">
+            No coincide.
+          </small>
+        </label>
+      </div>
+
+      <!-- Error global -->
+      <p *ngIf="formError" class="text-center text-rose-400 mt-4">{{ formError }}</p>
+
+      <!-- Botón -->
+      <button type="submit" class="w-full mt-6 py-3 rounded-full bg-primary hover:bg-primary-dark
+               text-white font-semibold transition">
+        Crear cuenta
+      </button>
+
+      <p class="text-center text-sm text-text-secondary mt-4">
+        ¿Ya tienes cuenta?
+        <a routerLink="/login" class="text-primary hover:underline cursor-pointer">Inicia sesión</a>
+      </p>
+    </form>
+  </section>
+</main>
+
+<style>
+  .input-base {
+    @apply bg-neutral-700 border border-neutral-600 rounded-xl px-4 py-2 text-gray-50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary;
+  }
+
+  @keyframes bounce-slow {
+
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+
+  .animate-bounce-slow {
+    animation: bounce-slow 4s infinite;
+  }
+</style>

@@ -1,0 +1,35 @@
+<div class="modal micromodal-slide" tabindex="-1" [id]="id" aria-hidden="true">
+  <div class="modal__overlay fixed inset-0 z-50 flex items-center justify-center bg-black/50" data-micromodal-close>
+    <div class="modal__container max-w-lg w-full rounded-3xl overflow-hidden bg-surface" role="dialog" aria-modal="true"
+      [attr.aria-labelledby]="id + '-title'">
+      <!-- HEADER -->
+      <header [ngClass]="'bg-gradient-to-r ' + gradient" class="p-4">
+        <h2 [id]="id + '-title'" class="text-text-primary text-xl font-semibold font-poppins">
+          {{ title }}
+        </h2>
+      </header>
+
+      <!-- BODY -->
+      <div class="p-6 text-text-primary text-base font-light font-poppins">
+        <p class="whitespace-pre-line">{{ message }}</p>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="p-4 bg-neutral-900 flex justify-end gap-2">
+        <button *ngIf="type === 'confirm'" (click)="cancel.emit()"
+          class="px-4 py-2 rounded-lg bg-surface-light hover:bg-border text-gray-200 text-sm font-poppins"
+          data-micromodal-close>
+          Cancelar
+        </button>
+        <button (click)="confirm.emit()" class="px-4 py-2 rounded-lg text-sm font-poppins" [ngClass]="{
+            'bg-info hover:bg-blue-700 text-white': type === 'info',
+            'bg-success hover:bg-success-dark text-white': type === 'success',
+            'bg-danger hover:bg-danger-dark text-white'  : type === 'error',
+            'bg-warning hover:bg-amber-600 text-white': type === 'confirm'
+          }" data-micromodal-close>
+          {{ type === 'confirm' ? 'Aceptar' : 'Entendido' }}
+        </button>
+      </footer>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,188 @@
+<main class="flex flex-col gap-8 h-full w-full">
+  <!-- Loader centrado -->
+  <div *ngIf="loading" class=" h-full w-full flex items-center justify-center z-50">
+    <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent"></div>
+  </div>
+  <ng-container *ngIf="!loading">
+    <!-- Modal “¿Cómo funciona?” -->
+    <ng-container *ngIf="showHelpModal">
+      <!-- Backdrop semitransparente -->
+      <div class="fixed inset-0 bg-black/50 z-50" (click)="closeHelp()">
+      </div>
+
+      <!-- Caja centrada -->
+      <div class="fixed inset-0 flex items-center justify-center z-50 p-4" (click)="$event.stopPropagation()">
+        <div class="bg-surface-light rounded-2xl max-w-md w-full shadow-2xl overflow-hidden">
+          <!-- Header -->
+          <header class="flex justify-between items-center px-6 py-4 border-b">
+            <h3 class="text-2xl font-semibold text-gray">Cómo funciona</h3>
+            <button (click)="closeHelp()" class="text-gray-500 hover:text-gray-700 transition">
+              <mat-icon>close</mat-icon>
+            </button>
+          </header>
+          <!-- Cuerpo -->
+          <div class="p-6 text-gray space-y-4">
+            <p>En esta pantalla puedes:</p>
+            <ul class="list-disc list-inside space-y-2">
+              <li><strong>Ver</strong> el detalle completo de tu apuesta.</li>
+              <li><strong>Observar</strong> el reparto de fichas entre opciones (barra de progreso).</li>
+              <li>
+                Si la apuesta está <strong>Abierta</strong>, introducir cuánto deseas apostar
+                en una de las dos opciones.
+              </li>
+              <li>
+                Si la apuesta está <strong>Cerrada</strong>, esperar a que se resuelva
+                y ver la opción ganadora resaltada.
+              </li>
+            </ul>
+            <div class="flex justify-center mt-6">
+              <img src="/assets/images/nosabe.png" alt="Octo, la mascota de OctoBets" class="h-24 object-cover" />
+            </div>
+          </div>
+          <!-- Footer -->
+          <div class="px-6 py-4 border-t text-right">
+            <button (click)="closeHelp()"
+              class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-dark transition">
+              ¡Entendido!
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="apuesta">
+      <!-- Header ---------------------------------------------------------->
+      <header class="flex justify-between items-center">
+        <h2 class="text-text-primary text-4xl font-semibold font-oswald tracking-widest">
+          {{ apuesta.titulo }}
+        </h2>
+
+        <button (click)="openHelp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
+                 bg-primary hover:bg-primary-dark text-white transition">
+          <mat-icon>help_outline</mat-icon>
+          ¿Cómo funciona?
+        </button>
+      </header>
+
+      <!-- Info general ----------------------------------------------------->
+      <section class="bg-neutral-900 rounded-2xl p-normal flex flex-col gap-4">
+        <p class="text-text-secondary">{{ apuesta.descripcion }}</p>
+        <span *ngIf="apuesta.estado === apuestaEstado.CERRADA" class="text-warning text-sm font-semibold">
+          La apuesta está cerrada. En breve se resolverá.
+        </span>
+
+        <span *ngIf="apuesta.estado === 'Cancelada'" class="text-danger text-sm font-semibold">
+          La apuesta fue cancelada. Se reembolsaron las fichas.
+        </span>
+
+        <span *ngIf="apuesta.estado === 'Resuelta' && opcionGanadora" class="text-info text-sm font-semibold">
+          Ganadora: <strong>{{ opcionGanadora.descripcion }}</strong>
+        </span>
+        <div class="flex flex-wrap gap-3 text-sm">
+          <span class="chip"><mat-icon>category</mat-icon>{{ apuesta.tipo }}</span>
+          <span class="chip"><mat-icon>calendar_today</mat-icon>{{ apuesta.fechaCreacion | date:'short' }}</span>
+          <span *ngIf="apuesta.fechaCierre" class="chip">
+            <mat-icon>event_busy</mat-icon>{{ apuesta.fechaCierre | date:'short' }}
+          </span>
+          <span class="chip ml-auto !bg-emerald-700 text-text-primary font-semibold">
+            {{ apuesta.estado }}
+          </span>
+        </div>
+      </section>
+
+
+      <!-- Barra de cantidad ---------------------------------------->
+      <div class="w-full h-4 rounded-full overflow-hidden bg-surface-light">
+        <div class="h-full bg-success" [style.width.%]="barraProgreso(0)"></div>
+        <div class="h-full bg-warning" [style.width.%]="barraProgreso(1)"></div>
+      </div>
+
+      <!-- Opciones ------------------------------------>
+      <form *ngIf="puedeApostar" [formGroup]="form" class="grid gap-normal sm:grid-cols-2 flex-1 h-fit">
+        <ng-container formArrayName="stakes">
+          <ng-container *ngFor="let op of apuesta.opciones; let i = index">
+            <article [formGroupName]="i" class="bg-surface-light rounded-2xl p-5 flex flex-col gap-4 shadow-md
+         hover:shadow-lg transition">
+              <!-- Etiqueta Opción -->
+              <span class="inline-block bg-black/40 text-text-secondary text-xs font-poppins
+           px-3 py-0.5 rounded-full self-start tracking-wide">
+                Opción {{ i + 1 }}
+              </span>
+
+              <!-- Descripción + cuota -->
+              <div class="flex justify-between items-center mt-1">
+                <h3 class="text-base sm:text-lg font-medium text-gray-100">
+                  {{ op.descripcion }}
+                </h3>
+                <span class="text-xl sm:text-2xl font-oswald text-fuchsia-400">
+                  {{ op.cuota | number:'1.2-2' }}
+                </span>
+              </div>
+
+              <!-- Total apostado -->
+              <p class="text-xs sm:text-sm text-amber-400 font-medium text-right">
+                Apostado:
+                {{ op.totalApostado | currency:'EUR':'symbol':'1.0-0' }}
+              </p>
+
+              <!-- Botón -->
+              <div class="flex gap-2">
+                <input formControlName="stake" type="number" min="0" [disabled]="stakes.at(i).controls.stake.disabled"
+                  class="flex-1 text-center bg-surface-light border border-border
+           rounded-xl py-2 text-text-primary placeholder-text-primary0
+           focus:outline-none focus:ring-2 focus:ring-primary" placeholder="€" />
+                <button type="button" (click)="apostar(i)"
+                  [disabled]="stakes.at(i).controls.stake.disabled || stakes.at(i).controls.stake.value < 1" [ngClass]="i === 0
+      ? 'bg-success hover:bg-success-dark'
+      : 'bg-warning hover:bg-amber-600'" class="px-5 py-2 rounded-xl text-white font-semibold transition">
+                  Apostar
+                </button>
+              </div>
+            </article>
+
+
+          </ng-container>
+        </ng-container>
+      </form>
+
+      <div *ngIf="!puedeApostar" class="grid gap-normal sm:grid-cols-2 flex-1">
+        <article *ngFor="let op of apuesta.opciones" class="bg-surface rounded-2xl p-5 flex flex-col gap-4 shadow-md">
+          <span class="inline-block bg-black/40 text-text-secondary text-xs px-3 py-0.5 rounded-full self-start">
+            {{ op.ganadora ? 'Ganadora' : 'Opción' }}
+          </span>
+
+          <div class="flex justify-between items-center">
+            <h3 class="text-base sm:text-lg font-medium text-text-primary">{{ op.descripcion }}</h3>
+            <span class="text-xl sm:text-2xl font-oswald text-primary">
+              {{ op.cuota | number:'1.2-2' }}
+            </span>
+          </div>
+
+          <p class="text-xs sm:text-sm text-amber-400 font-medium text-right">
+            Apostado: {{ op.totalApostado | currency:'EUR':'symbol':'1.0-0' }}
+          </p>
+        </article>
+      </div>
+
+      <!-- Aviso --------------------------------------------------->
+      <p *ngIf="puedeApostar" class="flex items-center gap-2 bg-surface px-4 py-2 rounded-full
+           text-sm text-text-secondary">
+        <mat-icon class="text-base">info</mat-icon>
+        Las <strong>cuotas se recalculan en tiempo real</strong> y podrían variar
+        hasta el cierre de la apuesta.
+      </p>
+    </ng-container>
+  </ng-container>
+</main>
+
+
+<style>
+  .chip {
+    @apply inline-flex items-center gap-1 bg-surface text-text-secondary px-3 py-1.5 rounded-full;
+  }
+
+  :root {
+    @include mat.progress-spinner-overrides((active-indicator-color: orange,
+      ));
+  }
+</style>

@@ -1,12 +1,35 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { SidebarComponent } from "./shared/layout/sidebar/sidebar.component";
+import { FooterComponent } from "./shared/layout/footer/footer.component";
+import { filter } from 'rxjs';
+import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, SidebarComponent, FooterComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'octobets-front';
+
+  private router = inject(Router);
+
+  showSidebar = signal(true);
+
+  constructor() {
+    this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe(() => this.showSidebar.set(this.resolveSidebar(this.router.routerState.snapshot.root)));
+  }
+
+  private resolveSidebar(snap: ActivatedRouteSnapshot): boolean {
+    let node: ActivatedRouteSnapshot | null = snap;
+    while (node?.firstChild) node = node.firstChild;
+    return node?.data?.['sidebar'] !== false;
+  }
 }
+
+
