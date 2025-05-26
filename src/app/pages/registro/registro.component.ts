@@ -5,6 +5,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-registro',
@@ -52,8 +53,10 @@ export class RegistroComponent {
         this.alerts.success('Cuenta creada', 'Ahora puedes iniciar sesión.');
         this.router.navigate(['/login']);
       },
-      error: err => {
-        this.formError = err.error?.message || 'No se pudo crear la cuenta.';
+      error: (err: HttpErrorResponse) => {
+        const api = typeof err.error === 'object' ? err.error as { code?: string; detail?: string } : null;
+        const detail = api?.detail;
+        this.formError = detail || 'No se pudo crear la cuenta.';
         this.loading = false;
       }
     });
