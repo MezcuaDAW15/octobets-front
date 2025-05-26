@@ -1,4 +1,4 @@
-<div class="flex flex-col h-full w-full gap-normal">
+<div class="flex flex-col h-full w-full font-poppins gap-normal">
   <!-- Modal “¿Cómo funciona?”-->
   <ng-container *ngIf="showHelpModal">
     <!-- Backdrop -->
@@ -61,36 +61,40 @@
 
   <!-- BARRA DE BÚSQUEDA + GESTIÓN + FILTROS -->
   <div class="w-full">
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 ">
 
       <!-- Barra de búsqueda -->
-      <div class=" lg:flex-[2.15] md:flex-[2] flex items-center px-4 py-2.5 bg-primary-dark/25 rounded-[20px]
-                outline outline-2 outline-offset-[-2px] outline-primary-dark/90 min-h-[3.5rem]">
-        <mat-icon class="text-primary-dark mr-2">search</mat-icon>
-        <input type="text" placeholder="Buscar apuesta..." [(ngModel)]="searchTerm" (input)="filtrarPorTexto()"
-          class="bg-transparent focus:outline-none text-fuchsia-50 placeholder-fuchsia-300 text-base font-poppins w-full" />
+      <div class="relative flex-1">
+        <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          search
+        </mat-icon>
+        <input type="text" placeholder="Buscar apuesta..." [(ngModel)]="searchTerm" (input)="filtrarPorTexto()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
+               rounded-xl text-text-primary placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-primary" />
       </div>
 
-      <!-- Botón “Añade filtros” -->
-      <div class="flex-1 px-5 py-3 rounded-[20px]
-                outline outline-2 outline-offset-[-2px] outline-primary-dark/50
-                flex items-center gap-2.5 cursor-pointer min-h-[3.5rem]" (click)="toggleFilters()">
-        <mat-icon class="w-6 h-6 text-primary-dark/70">filter_list</mat-icon>
-        <span class="text-text-primary/70 text-base font-light font-poppins flex-1 text-center">
+      <!-- Botón "Añade filtros" -->
+      <div class="relative bg-surface-light border border-border pl-10 pr-4 py-2
+             rounded-xl flex items-center gap-2.5 cursor-pointer
+             focus:outline-none focus:ring-2 focus:ring-primary w-fit" (click)="toggleFilters()" tabindex="0">
+        <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          filter_list
+        </mat-icon>
+        <span class="text-text-primary text-base font-poppins ps-3">
           Añade filtros
         </span>
-        <mat-icon class="w-4 h-4 text-primary-dark/70 rotate-90">arrow_drop_down</mat-icon>
       </div>
 
-      <!-- Botón “Gestiona tus Apuestas” -->
-      <div class="flex-1 px-5 py-3 rounded-[20px]
-                outline outline-2 outline-offset-[-2px] outline-primary-dark/50
-                flex items-center gap-2.5 cursor-pointer min-h-[3.5rem]" (click)="goToMisApuestas()">
-        <mat-icon class="w-6 h-6 text-primary-dark/70">filter_list</mat-icon>
-        <span class="text-text-primary/70 text-base font-light font-poppins flex-1 text-center">
+      <!-- Botón "Gestiona tus Apuestas" -->
+      <div class="relative bg-surface-light border border-border pl-10 pr-4 py-2
+             rounded-xl flex items-center gap-2.5 cursor-pointer
+             focus:outline-none focus:ring-2 focus:ring-primary w-fit" (click)="goToMisApuestas()" tabindex="0">
+        <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+          apps
+        </mat-icon>
+        <span class="text-text-primary text-base font-poppins ps-3">
           Gestiona tus Apuestas
         </span>
-        <mat-icon class="w-4 h-4 text-primary-dark/70 rotate-180">arrow_drop_down</mat-icon>
       </div>
 
     </div>
