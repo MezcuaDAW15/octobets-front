@@ -8,6 +8,7 @@ import { MisTicketsComponent } from './pages/mis-tickets/mis-tickets.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.component';
+import { CarteraComponent } from './pages/cartera/cartera.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { sidebar: false } },
   { path: 'registro', component: RegistroComponent, data: { sidebar: false } },
   { path: 'ajustes', component: UsuarioConfigComponent },
+  { path: 'cartera', component: CarteraComponent },
 
 
   { path: 'apuestas/:id', component: VerApuestaComponent },
