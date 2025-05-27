@@ -39,21 +39,22 @@
       <span class="hidden md:inline">Ajustes</span>
     </button>
 
-    <div class="flex flex-col md:flex-row items-center gap-2 px-3 py-3 rounded-xl justify-center md:justify-start w-full
-            bg-white/10">
+    <div
+      class="flex flex-col md:flex-row items-center gap-2 px-3 py-3 rounded-xl justify-center md:justify-start w-full">
       <!-- Avatar -->
       <img *ngIf="u.avatar" [src]="'/assets/images/avatars/' + u.avatar" alt="avatar"
-        class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover ring-2 ring-primary" />
+        class="w-8 h-8 md:w-10 md:h-10 rounded-full object-cover ring-1 ring-white" />
 
       <!-- Username oculto en small -->
       <span class="hidden md:inline truncate">{{ u.username }}</span>
 
       <!-- Botón logout -->
-      <button (click)="logout()" aria-label="Salir" class="mt-2 md:mt-0 md:ml-auto flex items-center justify-center
+      <button (click)="logout()" aria-label="Salir" class="
+            bg-white/10 mt-2 md:mt-0 md:ml-auto flex items-center justify-center
                  w-8 h-8 md:w-10 md:h-10
-                 border border-primary rounded
-                 hover:bg-primary/10 hover:scale-105 transition">
-        <mat-icon class="text-primary text-base">logout</mat-icon>
+                 border rounded
+                 hover:bg-white/20 hover:scale-105 transition">
+        <mat-icon class="text-base">logout</mat-icon>
       </button>
     </div>
   </ng-container>
