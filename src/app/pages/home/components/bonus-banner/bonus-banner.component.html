@@ -28,20 +28,23 @@
   <div class="w-full h-52 bg-surface-light text-gray-100
            rounded-3xl flex items-center justify-between
            px-8 py-6 md:py-0 ring-2 ring-inset ring-success">
+    <div class="flex md:gap-normal items-center">
+      <img src="/assets/images/feliz.png" alt="Octo feliz" class="h-24 hidden md:block" />
+      <div>
 
-    <div>
-      <h2 class="text-3xl md:text-4xl font-oswald">
-        ¡Hola de nuevo!
-      </h2>
-      <p class="text-lg mt-1 text-gray-300">
-        Encantados de verte, <strong>{{ u.nombre }}</strong>.
-      </p>
+        <h2 class="text-3xl md:text-4xl font-oswald">
+          ¡Hola de nuevo!
+        </h2>
+        <p class="text-lg mt-1 text-gray-300">
+          Encantados de verte, <strong>{{ u.nombre }}</strong>.
+        </p>
+      </div>
     </div>
 
     <div class="flex items-center gap-4">
       <img [src]="'/assets/images/avatars/' + (u.avatar || 'default.png')" alt="avatar"
-        class="w-16 h-16 rounded-full object-cover ring-4 ring-primary/50" />
-      <mat-icon class="text-5xl text-success-light">celebration</mat-icon>
+        class="w-16 h-16 rounded-full object-cover ring-2 ring-white" />
+      <mat-icon class="">celebration</mat-icon>
     </div>
   </div>
 </ng-container>
