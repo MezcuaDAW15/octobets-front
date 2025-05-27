@@ -9,6 +9,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.component';
 import { CarteraComponent } from './pages/cartera/cartera.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,5 +24,6 @@ export const routes: Routes = [
 
 
   { path: 'apuestas/:id', component: VerApuestaComponent },
+  { path: '**', component: NotFoundComponent, data: { sidebar: false } },
 
 ];
