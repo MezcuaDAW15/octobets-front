@@ -125,7 +125,7 @@ export class VerApuestaComponent implements OnInit {
   apostar(index: number): void {
     if (!this.puedeApostar) return;
     if (this.form.invalid) {
-      this.alerts.error('Importe inválido', 'Introduce al menos 1 €.');
+      this.alerts.error('Importe inválido', 'Introduce al menos 1 ficha.');
       return;
     }
 
