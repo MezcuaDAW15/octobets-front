@@ -12,12 +12,14 @@ import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { environment } from '../../../environments/environment';
 import { CommonModule, isPlatformBrowser, registerLocaleData } from '@angular/common';
 import localeEs from '@angular/common/locales/es';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterLink } from '@angular/router';
 
 registerLocaleData(localeEs, 'es-ES');
 
 @Component({
   selector: 'app-cartera',
-  imports: [CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, MatIconModule, RouterLink],
   templateUrl: './cartera.component.html',
   styleUrl: './cartera.component.scss'
 })

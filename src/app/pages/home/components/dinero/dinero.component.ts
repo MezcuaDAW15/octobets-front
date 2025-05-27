@@ -27,12 +27,8 @@ export class DineroComponent implements OnInit {
 
   }
 
-  /** Recarga 100 fichas (demo) */
   addFichas(): void {
-    console.log('Recargando falso saldo');
+    this.router.navigate(['/cartera']);
   }
 
-  ajustes(): void {
-    this.router.navigate(['/ajustes']);
-  }
 }

@@ -28,9 +28,17 @@
 
   <ng-template #contenidoVista>
     <!-- HEADER -->
-    <header class="mb-8">
-      <h1 class="text-4xl font-oswald text-text-primary">AJUSTES DE USUARIO</h1>
-      <p class="text-text-secondary">Actualiza tus datos y tu avatar.</p>
+    <header class="mb-8 flex justify-between">
+      <div>
+        <h1 class="text-4xl font-oswald text-text-primary">AJUSTES DE USUARIO</h1>
+        <p class="text-text-secondary">Actualiza tus datos y tu avatar.</p>
+      </div>
+      <button class="flex items-center gap-2 px-5 py-2.5 rounded-full
+           bg-surface-light hover:bg-primary/20 text-primary font-semibold
+           transition" routerLink="/transacciones">
+        <mat-icon>receipt_long</mat-icon>
+        Ver historial de transacciones
+      </button>
     </header>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
