@@ -10,7 +10,10 @@ import { FormBuilder, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFo
 import { finalize } from 'rxjs';
 import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { environment } from '../../../environments/environment';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { CommonModule, isPlatformBrowser, registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs, 'es-ES');
 
 @Component({
   selector: 'app-cartera',
@@ -66,7 +69,7 @@ export class CarteraComponent implements OnInit, AfterViewInit {
       style: {
         base: {
           fontSize: '16px',
-          color: '#32325d',
+          color: '#FFFFFF',
         }
       }
     };
