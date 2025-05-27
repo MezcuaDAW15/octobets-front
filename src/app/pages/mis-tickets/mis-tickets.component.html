@@ -144,19 +144,19 @@
 
             <!-- Importe y ganancia / potencial -->
             <div class="text-sm font-poppins flex flex-col gap-1">
-              <span class="text-gray-400">Apostado: {{ tk.cantidad | currency:'EUR':'symbol':'1.0-0' }}</span>
+              <span class="text-gray-400">Apostado: {{ tk.cantidad | number:'1.0-0' }} fichas</span>
 
               <ng-container *ngIf="tk.estado==='Resuelta'; else futuro">
                 <span [class.text-success]="tk.ganadora" [class.text-danger]="!tk.ganadora" class="font-bold">
                   {{ tk.ganadora ? 'Ganancia' : 'Pérdida' }}:
-                  {{ tk.ganancia | currency:'EUR':'symbol':'1.0-0' }}
+                  {{ tk.ganancia | number:'1.0-0' }} fichas
                 </span>
               </ng-container>
 
               <ng-template #futuro>
                 <span class="text-warning font-semibold">
                   Potencial:
-                  {{ tk.cantidad * tk.cuota | currency:'EUR':'symbol':'1.0-0' }}
+                  {{ tk.cantidad * tk.cuota | number:'1.0-0' }} fichas
                 </span>
               </ng-template>
             </div>
