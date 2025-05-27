@@ -3,6 +3,17 @@ import { Inject, Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { map, Observable } from 'rxjs';
 
+export interface Transaccion {
+  id: number;
+  fecha: string;     // ISO date
+  tipo: 'DEPOSITO' | 'RETIRO';
+  cantidadFichas: number;
+  cantidadDinero: number;
+  stripeId?: string;
+  estado?: 'PENDING' | 'SUCCEEDED' | 'FAILED';
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,5 +40,15 @@ export class CarteraService {
   /** (opcional) Obtener saldo actual */
   balance(): Observable<number> {
     return this.http.get<number>(`${this.base}/balance`);
+  }
+
+  listTransactions(): Observable<Transaccion[]> {
+    return this.http.get<Transaccion[]>(
+      `${this.base}/transacciones`
+    ).pipe(
+      map(transacciones =>
+        transacciones.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+      )
+    );
   }
 }
