@@ -14,7 +14,7 @@
     <div class="flex items-center gap-2">
       <img src="assets/images/iconos/money.svg" alt="Fichas" class="w-5 h-5">
       <span class="text-white text-lg font-bold">
-        {{ saldo$ | async }} fichas
+        {{ saldo$ | async | number:'1.0-0':'es-ES' }} fichas
       </span>
     </div>
 

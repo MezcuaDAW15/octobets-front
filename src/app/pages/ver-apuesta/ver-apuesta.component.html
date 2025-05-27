@@ -115,14 +115,14 @@
                   {{ op.descripcion }}
                 </h3>
                 <span class="text-xl sm:text-2xl font-oswald text-fuchsia-400">
-                  {{ op.cuota | number:'1.2-2' }}
+                  {{ op.cuota | number:'1.2-2':'es-ES' }}
                 </span>
               </div>
 
               <!-- Total apostado -->
               <p class="text-xs sm:text-sm text-amber-400 font-medium text-right">
                 Apostado:
-                {{ op.totalApostado | number:'1.0-0' }} fichas
+                {{ op.totalApostado | number:'1.0-0' :'es-ES' }} fichas
               </p>
 
               <!-- Botón -->
@@ -154,7 +154,7 @@
           <div class="flex justify-between items-center">
             <h3 class="text-base sm:text-lg font-medium text-text-primary">{{ op.descripcion }}</h3>
             <span class="text-xl sm:text-2xl font-oswald text-primary">
-              {{ op.cuota | number:'1.2-2' }}
+              {{ op.cuota | number:'1.2-2': 'es-ES' }}
             </span>
           </div>
 
