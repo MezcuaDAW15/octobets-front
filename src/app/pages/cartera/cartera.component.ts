@@ -1,5 +1,10 @@
 import { AfterViewInit, Component, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
-import { loadStripe, Stripe, StripeElements } from '@stripe/stripe-js';
+import {
+  Stripe,
+  StripeElements,
+  StripeCardElement,
+  StripeCardElementOptions
+} from '@stripe/stripe-js';
 import { CarteraService } from '../../core/services/cartera/cartera.service';
 import { FormBuilder, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
@@ -15,15 +20,12 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 })
 export class CarteraComponent implements OnInit, AfterViewInit {
 
-  /* --------- Stripe --------- */
   private stripe: Stripe | null = null;
   private elements!: StripeElements;
 
-  /* --------- UI state ------- */
-  loading = signal(false);
   balance = signal<number>(0);
+  processing = false;
 
-  /* --------- Forms ---------- */
   buyForm: FormGroup;
   withdrawForm: FormGroup;
 
@@ -45,7 +47,6 @@ export class CarteraComponent implements OnInit, AfterViewInit {
     });
   }
 
-  /* ---------- lifecycle ---------- */
   ngOnInit(): void {
     this.cartera.balance().subscribe(b => this.balance.set(b));
   }
@@ -53,20 +54,26 @@ export class CarteraComponent implements OnInit, AfterViewInit {
   async ngAfterViewInit(): Promise<void> {
     if (!this.isBrowser) return;
 
-    /* 1. Stripe desde global window (sdk ya cargado en index.html) */
     this.stripe = (window as any).Stripe(environment.stripeKey);
     if (!this.stripe) {
       this.alerts.error('Stripe', 'No se pudo inicializar el servicio de pagos.');
       return;
     }
 
-    /* 2. Elements */
     this.elements = this.stripe.elements();
-    const card = this.elements.create('card');
+
+    const cardOptions: StripeCardElementOptions = {
+      style: {
+        base: {
+          fontSize: '16px',
+          color: '#32325d',
+        }
+      }
+    };
+    const card = this.elements.create('card', cardOptions);
     card.mount('#card-element');
   }
 
-  /* ---------- COMPRAR ---------- */
   async onBuy(): Promise<void> {
     if (this.buyForm.invalid || !this.stripe) {
       this.buyForm.markAllAsTouched();
@@ -75,15 +82,18 @@ export class CarteraComponent implements OnInit, AfterViewInit {
 
     const euros = this.buyForm.value.euros!;
     const chips = euros * 100;
-    this.loading.set(true);
+    this.processing = true;
 
     this.cartera.buyChips(chips).subscribe({
       next: async clientSecret => {
-        const { error } = await this.stripe!.confirmCardPayment(clientSecret, {
-          payment_method: { card: this.elements.getElement('card')! }
-        });
-        if (error) {
-          this.alerts.error('Pago rechazado', error.message ?? '');
+        const { paymentIntent, error } =
+          await this.stripe!.confirmCardPayment(clientSecret, {
+            payment_method: { card: this.elements.getElement('card')! }
+          });
+
+        if (error || paymentIntent?.status !== 'succeeded') {
+          this.alerts.error('Pago rechazado',
+            error?.message ?? 'La tarjeta fue denegada.');
         } else {
           this.alerts.success('¡Compra realizada!', `Se añadieron ${chips} fichas.`);
           this.balance.update(b => b + chips);
@@ -91,11 +101,10 @@ export class CarteraComponent implements OnInit, AfterViewInit {
         }
       },
       error: () => this.alerts.error('Error', 'No se pudo iniciar el pago.'),
-      complete: () => this.loading.set(false)
+      complete: () => this.processing = false
     });
   }
 
-  /* ---------- RETIRAR ---------- */
   onWithdraw(): void {
     if (this.withdrawForm.invalid) {
       this.withdrawForm.markAllAsTouched();
@@ -103,10 +112,10 @@ export class CarteraComponent implements OnInit, AfterViewInit {
     }
 
     const chips = this.withdrawForm.value.chips!;
-    this.loading.set(true);
+    this.processing = true;
 
     this.cartera.withdrawChips(chips).pipe(
-      finalize(() => this.loading.set(false))
+      finalize(() => this.processing = false)
     ).subscribe({
       next: () => {
         this.alerts.success('Retiro efectuado', `Has retirado ${chips} fichas.`);

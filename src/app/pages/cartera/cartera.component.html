@@ -1,68 +1,61 @@
 <main class="flex flex-col gap-8 p-6 h-full w-full overflow-auto">
-  <!-- Loader centrado -->
-  <div *ngIf="loading()" class="flex items-center justify-center h-full w-full">
-    <div class="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent"></div>
-  </div>
+  <!-- SALDO + MASCOTA -->
+  <section class="flex items-center justify-between bg-surface-light rounded-2xl p-6 shadow-md">
+    <div>
+      <h2 class="text-text-primary text-3xl font-semibold mb-1">Tu saldo</h2>
+      <p class="text-primary text-4xl font-bold">
+        {{ balance() | number:'1.0-0' }} fichas
+      </p>
+    </div>
+    <img src="/assets/images/dinerito.png" alt="Octo, la mascota de OctoBets"
+      class="h-24 w-24 object-contain select-none pointer-events-none" />
+  </section>
 
-  <!-- Contenido principal -->
-  <ng-container *ngIf="!loading()">
-    <!-- Saldo con mascota -->
-    <section class="flex items-center justify-between bg-surface-light rounded-2xl p-6 shadow-md">
-      <div>
-        <h2 class="text-text-primary text-3xl font-semibold mb-1">Tu saldo</h2>
-        <p class="text-primary text-4xl font-bold">
-          {{ balance() | number:'1.0-0' }} fichas
+  <!-- FORMULARIOS -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <!-- COMPRAR -->
+    <div class="bg-surface-light rounded-2xl p-6 shadow-md flex flex-col">
+      <h3 class="text-text-primary text-2xl font-semibold mb-4">Comprar fichas</h3>
+
+      <form [formGroup]="buyForm" (ngSubmit)="onBuy()" class="flex flex-col gap-4">
+        <label class="flex flex-col">
+          <span class="text-gray-200 mb-1 font-medium">Euros</span>
+          <input type="number" formControlName="euros" min="1" step="1" placeholder="1 € = 100 fichas" class="w-full bg-white border border-border text-text-primary rounded-xl px-4 py-2
+                        focus:outline-none focus:ring-2 focus:ring-primary" />
+        </label>
+        <p *ngIf="buyForm.get('euros')?.invalid && buyForm.get('euros')?.touched" class="text-rose-500 text-sm -mt-2">
+          Introduce al menos 1 €.
         </p>
-      </div>
-      <img src="/assets/images/dinerito.png" alt="Octo, la mascota de OctoBets"
-        class="h-24 w-24 object-contain select-none pointer-events-none" />
-    </section>
 
-    <!-- Formularios de compra y retiro -->
-    <section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-      <!-- Comprar fichas -->
-      <div class="bg-surface-light rounded-2xl p-6 shadow-md flex flex-col">
-        <h3 class="text-text-primary text-2xl font-semibold mb-4">Comprar fichas</h3>
-        <form [formGroup]="buyForm" (ngSubmit)="onBuy()" class="flex flex-col gap-4">
-          <div class="flex flex-col">
-            <label class="text-gray-200 mb-1 font-medium">Euros</label>
-            <input type="number" formControlName="euros" min="1" step="1" placeholder="1 € = 100 fichas"
-              class="w-full bg-white border border-border text-text-primary rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
-            <p *ngIf="buyForm.get('euros')?.invalid && buyForm.get('euros')?.touched"
-              class="text-rose-500 text-sm mt-1">
-              Introduce al menos 1 €.
-            </p>
-          </div>
+        <div id="card-element" class="border border-border rounded-xl p-2"></div>
 
-          <div id="card-element" class="mt-2 border border-border rounded-xl p-2"></div>
+        <button type="submit" [disabled]="buyForm.invalid || processing" class="mt-6 self-end px-6 py-3 bg-primary hover:bg-primary-dark text-white
+                       font-semibold rounded-full shadow transition disabled:opacity-50">
+          Confirmar pago
+        </button>
+      </form>
+    </div>
 
-          <button type="submit" [disabled]="buyForm.invalid || loading()"
-            class="mt-6 self-end px-6 py-3 bg-primary hover:bg-primary-dark text-white font-semibold rounded-full shadow transition disabled:opacity-50">
-            Confirmar pago
-          </button>
-        </form>
-      </div>
+    <!-- RETIRAR -->
+    <div class="bg-surface-light rounded-2xl p-6 shadow-md flex flex-col">
+      <h3 class="text-text-primary text-2xl font-semibold mb-4">Retirar fichas</h3>
 
-      <!-- Retirar fichas -->
-      <div class="bg-surface-light rounded-2xl p-6 shadow-md flex flex-col">
-        <h3 class="text-text-primary text-2xl font-semibold mb-4">Retirar fichas</h3>
-        <form [formGroup]="withdrawForm" (ngSubmit)="onWithdraw()" class="flex flex-col gap-4">
-          <div class="flex flex-col">
-            <label class="text-gray-200 mb-1 font-medium">Fichas</label>
-            <input type="number" formControlName="chips" min="100" step="100" placeholder="Ej: 500"
-              class="w-full bg-white border border-border text-text-primary rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary" />
-            <p *ngIf="withdrawForm.get('chips')?.invalid && withdrawForm.get('chips')?.touched"
-              class="text-rose-500 text-sm mt-1">
-              Mínimo 100 fichas.
-            </p>
-          </div>
+      <form [formGroup]="withdrawForm" (ngSubmit)="onWithdraw()" class="flex flex-col gap-4">
+        <label class="flex flex-col">
+          <span class="text-gray-200 mb-1 font-medium">Fichas</span>
+          <input type="number" formControlName="chips" min="100" step="100" placeholder="Ej: 500" class="w-full bg-white border border-border text-text-primary rounded-xl px-4 py-2
+                        focus:outline-none focus:ring-2 focus:ring-primary" />
+        </label>
+        <p *ngIf="withdrawForm.get('chips')?.invalid && withdrawForm.get('chips')?.touched"
+          class="text-rose-500 text-sm -mt-2">
+          Mínimo 100 fichas.
+        </p>
 
-          <button type="submit" [disabled]="withdrawForm.invalid || loading()"
-            class="mt-6 self-end px-6 py-3 bg-success hover:bg-success-dark text-white font-semibold rounded-full shadow transition disabled:opacity-50">
-            Retirar fondos
-          </button>
-        </form>
-      </div>
-    </section>
-  </ng-container>
+        <button type="submit" [disabled]="withdrawForm.invalid || processing" class="mt-6 self-end px-6 py-3 bg-success hover:bg-success-dark text-white
+                       font-semibold rounded-full shadow transition disabled:opacity-50">
+          Retirar fondos
+        </button>
+      </form>
+    </div>
+  </section>
 </main>
