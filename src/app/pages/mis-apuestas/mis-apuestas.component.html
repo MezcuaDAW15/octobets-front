@@ -40,7 +40,7 @@
     </header>
 
     <!-- BARRA DE FILTRO -------------------------------------------------->
-    <section class="flex flex-col gap-4 bg-surface rounded-2xl p-6 mb-8">
+    <section class="flex flex-col gap-4 bg-surface rounded-2xl mb-8">
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
@@ -49,7 +49,7 @@
           <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
             search
           </mat-icon>
-          <input type="text" [(ngModel)]="search" placeholder="Buscar ticket…" (input)="filtrar()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
+          <input type="text" [(ngModel)]="search" placeholder="Buscar apuesta…" (input)="filtrar()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
                rounded-xl text-text-primary placeholder-gray-400
                focus:outline-none focus:ring-2 focus:ring-primary" />
         </div>
@@ -172,7 +172,7 @@
                   {{ opt.descripcion }}
                 </div>
                 <div class="text-text-secondary text-sm">
-                  Cuota: <span class="font-semibold">{{ opt.cuota | number:'1.2-2' }}</span>
+                  Cuota: <span class="font-semibold">{{ opt.cuota | number:'1.2-2':'es-ES'  }}</span>
                 </div>
               </div>
             </label>

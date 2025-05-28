@@ -8,6 +8,9 @@ import { MisTicketsComponent } from './pages/mis-tickets/mis-tickets.component';
 import { LoginComponent } from './pages/login/login.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.component';
+import { CarteraComponent } from './pages/cartera/cartera.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { TransaccionesComponent } from './pages/transacciones/transacciones.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,12 +21,13 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { sidebar: false } },
   { path: 'registro', component: RegistroComponent, data: { sidebar: false } },
   { path: 'ajustes', component: UsuarioConfigComponent },
+  { path: 'cartera', component: CarteraComponent },
+  { path: 'transacciones', component: TransaccionesComponent },
 
 
-  {
-    path: 'apuestas/:id', component: VerApuestaComponent, data: {
-      prerender: { renderMode: 'blocking' }
-    }
-  },
+
+
+  { path: 'apuestas/:id', component: VerApuestaComponent },
+  { path: '**', component: NotFoundComponent, data: { sidebar: false } },
 
 ];

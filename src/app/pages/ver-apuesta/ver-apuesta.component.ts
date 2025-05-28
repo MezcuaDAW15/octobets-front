@@ -21,6 +21,7 @@ import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { ApuestasService } from '../../core/services/apuestas/apuestas.service';
 import { filter, finalize, of, switchMap, take } from 'rxjs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { HttpErrorResponse } from '@angular/common/http';
 
 
 type StakeGroup = FormGroup<{ stake: FormControl<number> }>;
@@ -124,7 +125,7 @@ export class VerApuestaComponent implements OnInit {
   apostar(index: number): void {
     if (!this.puedeApostar) return;
     if (this.form.invalid) {
-      this.alerts.error('Importe inválido', 'Introduce al menos 1 €.');
+      this.alerts.error('Importe inválido', 'Introduce al menos 1 ficha.');
       return;
     }
 
@@ -140,7 +141,11 @@ export class VerApuestaComponent implements OnInit {
             `Has apostado ${amount} € a "${opcion.descripcion}".`);
           stakeCtrl.reset();
         },
-        error: () => this.alerts.error('Error', 'No se pudo realizar la apuesta.')
+        error: (err: HttpErrorResponse) => {
+          const api = typeof err.error === 'object' ? err.error as { code?: string; detail?: string } : null;
+          const detail = api?.detail;
+          this.alerts.error('Error', detail || 'No se pudo realizar la apuesta.');
+        }
       });
   }
 

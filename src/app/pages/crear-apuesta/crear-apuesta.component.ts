@@ -9,6 +9,7 @@ import { ApuestasService } from '../../core/services/apuestas/apuestas.service';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { Observable, take, switchMap, finalize } from 'rxjs';
 import { Usuario } from '../../shared/models/usuario.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-crear-apuesta',
@@ -96,8 +97,10 @@ export class CrearApuestaComponent implements OnInit {
             this.alerts.success('Apuesta creada', 'Tu apuesta se ha guardado correctamente.');
             this.router.navigate(['/mis-apuestas']);
           },
-          error: () => {
-            this.alerts.error('Error', 'No se pudo crear la apuesta.');
+          error: (err: HttpErrorResponse) => {
+            const api = typeof err.error === 'object' ? err.error as { code?: string; detail?: string } : null;
+            const detail = api?.detail;
+            this.alerts.error('Error', detail || 'No se pudo crear la apuesta.');
           }
         });
       },

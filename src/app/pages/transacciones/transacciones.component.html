@@ -1,0 +1,73 @@
+<main class="w-full h-full overflow-auto font-poppins">
+  <h1 class="text-3xl font-bold font-oswald mb-6">HISTORIAL DE TRANSACCIONES</h1>
+
+  <table class="min-w-full bg-surface-light shadow-md rounded-lg overflow-hidden">
+    <thead class="bg-surface-dark text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Fecha</th>
+        <th class="px-4 py-2 text-left hidden md:table-cell ">Tipo</th>
+        <th class="px-4 py-2 text-right">Fichas</th>
+        <th class="px-4 py-2 text-right hidden md:table-cell ">Dinero</th>
+        <th class="px-4 py-2 text-left hidden md:table-cell ">Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tx of transacciones()" class="border-t">
+        <td class="px-4 py-2">{{ tx.fecha | date:'short' }}</td>
+        <td class="px-4 py-2 hidden md:table-cell ">
+          <span [ngClass]="{
+              'text-green-600': tx.tipo==='DEPOSITO',
+              'text-red-600':   tx.tipo==='RETIRO'
+            }">
+            {{ tx.tipo === 'DEPOSITO' ? 'Depósito' : 'Retiro' }}
+          </span>
+        </td>
+        <td class="px-4 py-2 text-right" [ngClass]="{
+    'text-green-600': tx.tipo === 'DEPOSITO',
+    'text-red-600':   tx.tipo === 'RETIRO',
+    'md:text-text-primary': true
+  }">{{ tx.cantidadFichas | number:'1.0-0':'es-ES' }}
+          <ng-container [ngSwitch]="tx.estado">
+            <!-- Succeeded: check verde -->
+            <svg *ngSwitchCase="'SUCCEEDED'" class="inline md:hidden ml-2 w-5 h-5 text-green-600"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 13l4 4L19 7" />
+            </svg>
+            <!-- Pending: reloj amarillo -->
+            <svg *ngSwitchCase="'PENDING'" class="inline md:hidden ml-2 w-5 h-5 text-yellow-600"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            <!-- Failed: cruz roja -->
+            <svg *ngSwitchCase="'FAILED'" class="inline md:hidden ml-2 w-5 h-5 text-red-600"
+              xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </ng-container>
+        </td>
+        <td class="px-4 py-2 text-right hidden md:table-cell ">{{ tx.cantidadDinero | number:'1.2-2':'es-ES' }} €</td>
+        <td class="px-4 py-2 hidden md:table-cell ">
+          <span [ngClass]="{
+              'text-yellow-600': tx.estado==='PENDING',
+              'text-green-600': tx.estado==='SUCCEEDED',
+              'text-red-600':   tx.estado==='FAILED'
+            }">
+            {{ toFormat(tx.estado!) }}
+          </span>
+        </td>
+
+      </tr>
+      <tr *ngIf="!transacciones().length && !loading()" class="text-center">
+        <td colspan="6" class="px-4 py-6 text-gray-500">
+          No hay transacciones registradas.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="loading()" class="mt-4 text-center text-gray-400">Cargando…</p>
+</main>

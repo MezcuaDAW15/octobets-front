@@ -1,14 +1,16 @@
 <div class="h-full w-full overflow-hidden">
-  <div class="flex h-full">
+  <!-- Flex: columna en móvil · fila en md+ -->
+  <div class="flex flex-col md:flex-row h-full">
 
     <!-- ▸ Columna izquierda (logo + aside + saldo) -->
-    <aside class="w-72 lg:w-80 flex flex-col pr-normal">
+    <aside class="w-full md:w-64 lg:w-72 flex flex-col md:pr-normal">
+
       <!-- Logo -->
       <div class="mb-normal flex justify-center">
-        <img src="assets/images/complete-logo.png" alt="OctoBets logo" class="w-8/12" />
+        <img src="assets/images/complete-logo.png" alt="OctoBets logo" class="w-8/12 md:w-7/12" />
       </div>
 
-      <!-- Lista aside -->
+      <!-- Lista aside (scroll si hace falta) -->
       <div class="flex-1 overflow-y-auto">
         <app-apuestas-aside></app-apuestas-aside>
       </div>
@@ -17,20 +19,25 @@
       <app-dinero class="mt-normal"></app-dinero>
     </aside>
 
-    <!-- ▸ Columna derecha -->
-    <section class="flex-1 flex flex-col gap-normal overflow-hidden">
+    <!-- ▸ Columna derecha (OCULTA en < md) -->
+    <section class="hidden md:flex flex-1 flex-col gap-normal overflow-hidden">
 
       <!-- Banner -->
       <app-bonus-banner></app-bonus-banner>
 
-      <!-- Apuestas mas top -->
-      <div class="w-64 h-5 inline-flex items-center gap-2.5">
-        <h3 class="text-sm text-text-secondary">APUESTAS CON MAS FICHAS ACTIVAS</h3>
-      </div>
-      <div class="flex-1 relative overflow-hidden rounded-3xl">
-        <div class="absolute inset-0 overflow-auto">
-          <div class="flex flex-col gap-6">
-            <app-apuesta-big-card class="cursor-pointer" *ngFor="let ap of topApuestas" [titulo]="ap.titulo"
+
+
+      <!-- Feed top-apuestas -->
+      <div class="flex-1 relative rounded-b-3xl overflow-hidden">
+        <!-- Título sección -->
+
+        <div class="flex flex-col h-full">
+          <h3 class="sticky top-0 z-10 bg-surface text-sm text-text-secondary tracking-wide
+               px-1 py-2">
+            APUESTAS CON MÁS FICHAS
+          </h3>
+          <div class="flex-1 overflow-auto flex flex-col gap-6 p-0.5">
+            <app-apuesta-big-card *ngFor="let ap of topApuestas" class="cursor-pointer" [titulo]="ap.titulo"
               [descripcion]="ap.descripcion" [estado]="ap.estado"
               [cuotas]="[ap.opciones[0].cuota, ap.opciones[1].cuota]"
               [descriptions]="[ap.opciones[0].descripcion, ap.opciones[1].descripcion]" [tipo]="ap.tipo"
@@ -38,11 +45,12 @@
             </app-apuesta-big-card>
           </div>
         </div>
-        <div class="absolute bottom-0 left-0 right-0 h-24
-                    bg-gradient-to-b from-transparent to-surface
-                    pointer-events-none"></div>
-      </div>
 
+        <!-- Fade inferior -->
+        <div class="pointer-events-none absolute bottom-0 left-0 right-0 h-24
+             bg-gradient-to-b from-transparent to-surface">
+        </div>
+      </div>
     </section>
   </div>
 </div>

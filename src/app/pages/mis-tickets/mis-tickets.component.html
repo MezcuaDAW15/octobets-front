@@ -73,7 +73,7 @@
     </header>
 
     <!-- BARRA DE FILTRO -------------------------------------------------->
-    <section class="flex flex-col gap-4 bg-surface rounded-2xl p-6 mb-8">
+    <section class="flex flex-col gap-4 bg-surface rounded-2xl mb-8">
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
 
@@ -139,24 +139,24 @@
             <p class="text-text-secondary text-sm">
               Elegiste:
               <span class="font-semibold text-text-primary">{{ tk.opcion }}</span>
-              — cuota <span class="font-medium text-primary">{{ tk.cuota | number:'1.2-2' }}</span>
+              — cuota <span class="font-medium text-primary">{{ tk.cuota | number:'1.2-2':'es-ES'  }}</span>
             </p>
 
             <!-- Importe y ganancia / potencial -->
             <div class="text-sm font-poppins flex flex-col gap-1">
-              <span class="text-gray-400">Apostado: {{ tk.cantidad | currency:'EUR':'symbol':'1.0-0' }}</span>
+              <span class="text-gray-400">Apostado: {{ tk.cantidad | number:'1.0-0':'es-ES' }} fichas</span>
 
               <ng-container *ngIf="tk.estado==='Resuelta'; else futuro">
                 <span [class.text-success]="tk.ganadora" [class.text-danger]="!tk.ganadora" class="font-bold">
                   {{ tk.ganadora ? 'Ganancia' : 'Pérdida' }}:
-                  {{ tk.ganancia | currency:'EUR':'symbol':'1.0-0' }}
+                  {{ tk.ganancia | number:'1.0-0' :'es-ES' }} fichas
                 </span>
               </ng-container>
 
               <ng-template #futuro>
                 <span class="text-warning font-semibold">
                   Potencial:
-                  {{ tk.cantidad * tk.cuota | currency:'EUR':'symbol':'1.0-0' }}
+                  {{ tk.cantidad * tk.cuota | number:'1.0-0' :'es-ES' }} fichas
                 </span>
               </ng-template>
             </div>

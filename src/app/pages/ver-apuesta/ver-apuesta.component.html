@@ -54,7 +54,7 @@
       <!-- Header ---------------------------------------------------------->
       <header class="flex justify-between items-center">
         <h2 class="text-text-primary text-4xl font-semibold font-oswald tracking-widest">
-          {{ apuesta.titulo }}
+          {{ apuesta.titulo.toUpperCase() }}
         </h2>
 
         <button (click)="openHelp()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full
@@ -115,14 +115,14 @@
                   {{ op.descripcion }}
                 </h3>
                 <span class="text-xl sm:text-2xl font-oswald text-fuchsia-400">
-                  {{ op.cuota | number:'1.2-2' }}
+                  {{ op.cuota | number:'1.2-2':'es-ES' }}
                 </span>
               </div>
 
               <!-- Total apostado -->
               <p class="text-xs sm:text-sm text-amber-400 font-medium text-right">
                 Apostado:
-                {{ op.totalApostado | currency:'EUR':'symbol':'1.0-0' }}
+                {{ op.totalApostado | number:'1.0-0' :'es-ES' }} fichas
               </p>
 
               <!-- Botón -->
@@ -130,7 +130,7 @@
                 <input formControlName="stake" type="number" min="0" [disabled]="stakes.at(i).controls.stake.disabled"
                   class="flex-1 text-center bg-surface-light border border-border
            rounded-xl py-2 text-text-primary placeholder-text-primary0
-           focus:outline-none focus:ring-2 focus:ring-primary" placeholder="€" />
+           focus:outline-none focus:ring-2 focus:ring-primary" placeholder="Fichas" />
                 <button type="button" (click)="apostar(i)"
                   [disabled]="stakes.at(i).controls.stake.disabled || stakes.at(i).controls.stake.value < 1" [ngClass]="i === 0
       ? 'bg-success hover:bg-success-dark'
@@ -154,12 +154,12 @@
           <div class="flex justify-between items-center">
             <h3 class="text-base sm:text-lg font-medium text-text-primary">{{ op.descripcion }}</h3>
             <span class="text-xl sm:text-2xl font-oswald text-primary">
-              {{ op.cuota | number:'1.2-2' }}
+              {{ op.cuota | number:'1.2-2': 'es-ES' }}
             </span>
           </div>
 
           <p class="text-xs sm:text-sm text-amber-400 font-medium text-right">
-            Apostado: {{ op.totalApostado | currency:'EUR':'symbol':'1.0-0' }}
+            Apostado: {{ op.totalApostado | number:'1.0-0' }} fichas
           </p>
         </article>
       </div>

@@ -8,6 +8,7 @@ import { AlertsService } from '../../core/services/alerts/alerts.service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { filter, Observable, take } from 'rxjs';
 import { AuthService } from '../../core/services/auth/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 function passwordsMatchValidator(control: AbstractControl): ValidationErrors | null {
   const pass = control.get('newPassword')?.value;
@@ -111,8 +112,10 @@ export class UsuarioConfigComponent implements OnInit {
         this.authService.refreshUser();
 
       },
-      error: (err: any) => {
-        this.formError = err.error?.message || 'No se pudo guardar';
+      error: (err: HttpErrorResponse) => {
+        const api = typeof err.error === 'object' ? err.error as { code?: string; detail?: string } : null;
+        const detail = api?.detail;
+        this.formError = detail || 'No se pudo guardar';
         this.loading = false;
       }
     });
@@ -141,8 +144,10 @@ export class UsuarioConfigComponent implements OnInit {
         this.showPasswordModal = false;
         this.loadingPassword = false;
       },
-      error: err => {
-        this.alerts.error('Error', err.error?.message || 'No se pudo cambiar la contraseña');
+      error: (err: HttpErrorResponse) => {
+        const api = typeof err.error === 'object' ? err.error as { code?: string; detail?: string } : null;
+        const detail = api?.detail;
+        this.alerts.error('Error', detail || 'No se pudo cambiar la contraseña.');
         this.loadingPassword = false;
       }
     });
