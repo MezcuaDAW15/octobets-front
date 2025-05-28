@@ -20,6 +20,10 @@ export const routes: Routes = [
   { path: 'ajustes', component: UsuarioConfigComponent },
 
 
-  { path: 'apuestas/:id', component: VerApuestaComponent },
+  {
+    path: 'apuestas/:id', component: VerApuestaComponent, data: {
+      prerender: { renderMode: 'blocking' }
+    }
+  },
 
 ];
