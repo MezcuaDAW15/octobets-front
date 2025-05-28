@@ -11,6 +11,7 @@ import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.co
 import { CarteraComponent } from './pages/cartera/cartera.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TransaccionesComponent } from './pages/transacciones/transacciones.component';
+import { RenderMode } from '@angular/ssr';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,6 +29,7 @@ export const routes: Routes = [
 
 
   { path: 'apuestas/:id', component: VerApuestaComponent },
+
   { path: '**', component: NotFoundComponent, data: { sidebar: false } },
 
 ];
