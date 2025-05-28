@@ -17,8 +17,8 @@ COPY . .
 
 # Compilamos en modo producción (ajusta el nombre del proyecto si hace falta)
 # Si tu proyecto se llama distinto, usa: npm run build -- --configuration production --output-path=dist
-RUN npx ng build --configuration production
-
+# RUN npx ng build --configuration production
+RUN npm run build -- --configuration production --output-path=dist
 ########################################
 # 2️⃣  Etapa de RUNTIME (Nginx)        #
 ########################################
