@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.apuestasService.getAll().subscribe(arr => {
+    this.apuestasService.getTop().subscribe(arr => {
       this.topApuestas = [...arr]
         .sort((a, b) =>
           sumaFichas(b) - sumaFichas(a)

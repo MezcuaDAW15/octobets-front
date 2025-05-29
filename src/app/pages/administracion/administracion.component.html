@@ -1,0 +1,124 @@
+<main class="font-poppins flex flex-col gap-6">
+
+  <ng-container *ngIf="!(logged$ | async); else contenidoVista">
+    <section class="flex-1 flex flex-col items-center justify-center text-center
+
+           text-white p-10 pt-20 md:pt-10 overflow-auto">
+      <h2 class="text-5xl font-oswald mb-4 drop-shadow-lg">
+        ¡Aún no has iniciado sesión!
+      </h2>
+      <p class="max-w-xl mb-8 text-lg">
+        Necesitas una cuenta de OctoBets para acceder a esta sección.
+      </p>
+
+      <div class="flex gap-6">
+        <button routerLink="/login" class="px-8 py-3 rounded-full bg-primary hover:bg-primary-dark
+                     text-white font-semibold shadow-lg transition">
+          Iniciar sesión
+        </button>
+        <button routerLink="/registro" class="px-8 py-3 rounded-full bg-white/20 border border-white
+                     font-semibold hover:bg-white/30 transition shadow-lg">
+          ¡Crear cuenta!
+        </button>
+      </div>
+
+      <img src="/assets/images/triste.png" alt="Ilustración"
+        class="w-32 md:w-40 mt-10 drop-shadow-2xl select-none pointer-events-none" />
+    </section>
+  </ng-container>
+  <ng-template #contenidoVista>
+    <!-- HEADER -->
+    <header class="flex justify-between items-center">
+      <h2 class="text-text-primary text-4xl font-semibold font-oswald tracking-widest">
+        ADMINISTRACIÓN DE APUESTAS
+      </h2>
+
+    </header>
+
+    <!-- BARRA DE FILTRO -------------------------------------------------->
+    <section class="flex flex-col gap-4 bg-surface rounded-2xl mb-8">
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-4">
+
+        <!-- buscador -->
+        <div class="relative col-span-2">
+          <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            search
+          </mat-icon>
+          <input type="text" [(ngModel)]="search" placeholder="Buscar apuesta…" (input)="filtrar()" class="w-full bg-surface-light border border-border pl-10 pr-4 py-2
+               rounded-xl text-text-primary placeholder-gray-400
+               focus:outline-none focus:ring-2 focus:ring-primary" />
+        </div>
+
+        <!-- filtro estado -->
+        <select [(ngModel)]="filtroEstado" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los estados</option>
+          <option *ngFor="let s of estados" [value]="s">{{ s }}</option>
+        </select>
+
+        <!-- filtro tipo -->
+        <select [(ngModel)]="filtroTipo" (change)="filtrar()" class="w-full bg-surface-light border border-border px-4 py-2 pr-10
+             rounded-xl text-text-primary appearance-none focus:outline-none
+             focus:ring-2 focus:ring-primary">
+          <option value="">Todos los tipos</option>
+          <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+        </select>
+
+      </div>
+
+
+    </section>
+
+    <!-- APUESTAS DEL USUARIO -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div *ngIf="filtradas.length === 0"
+        class="col-span-full text-center text-text-secondary p-6 rounded-2xl bg-surface-light">
+        <p class="text-lg">No se han encontrado apuestas.</p>
+      </div>
+      <div *ngFor="let apuesta of filtradas"
+        class="flex flex-col justify-between h-36 p-6 rounded-3xl overflow-hidden cursor-pointer">
+        <!-- Título y descripción -->
+        <div class="flex flex-col justify-between h-full mb-2">
+          <div class="text-text-primary text-xl font-semibold font-poppins leading-tight line-clamp-2 break-words">
+            {{ apuesta.titulo }}
+          </div>
+          <div class="text-text-primary text-sm font-light font-poppins leading-tight line-clamp-2 break-words">
+            {{ apuesta.descripcion }}
+          </div>
+
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="flex justify-end items-center gap-2">
+          <!-- Resuelta -->
+          <span *ngIf="apuesta.estado === apuestaEstado.ELIMINADA"
+            class="inline-flex items-center gap-1 px-3 py-1 bg-info text-white text-sm font-poppins rounded-lg">
+            <mat-icon>check_circle</mat-icon>
+            Eliminada
+          </span>
+
+          <!-- Abierta -->
+          <ng-container *ngIf="apuesta.estado !== apuestaEstado.ELIMINADA">
+            <button (click)="eliminar(apuesta); $event.stopPropagation()" class="inline-flex items-center gap-1 px-3 py-1 bg-surface/50 hover:bg-surface/70
+             text-text-primary text-sm font-poppins rounded-lg transition">
+              <mat-icon>lock</mat-icon>
+              Eliminar
+            </button>
+          </ng-container>
+
+
+
+
+
+
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </ng-template>
+</main>

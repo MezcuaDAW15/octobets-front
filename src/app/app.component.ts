@@ -1,3 +1,4 @@
+import { TitleService } from './core/services/title.service';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from "./shared/layout/sidebar/sidebar.component";
@@ -19,10 +20,14 @@ export class AppComponent {
 
   showSidebar = signal(true);
 
-  constructor() {
+  constructor(
+    private titleService: TitleService
+  ) {
     this.router.events.pipe(
       filter(e => e instanceof NavigationEnd)
     ).subscribe(() => this.showSidebar.set(this.resolveSidebar(this.router.routerState.snapshot.root)));
+
+    this.titleService.init();
   }
 
   private resolveSidebar(snap: ActivatedRouteSnapshot): boolean {

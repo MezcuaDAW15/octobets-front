@@ -47,6 +47,22 @@ export class ApuestasService {
     return this.http.get<ApuestaDTO[]>(this.base)
       .pipe(map((arr) => arr.map(dto => this.toApuesta(dto))));
   }
+  getAllAdmin(idUser: Number): Observable<Apuesta[]> {
+    return this.http.get<ApuestaDTO[]>(this.base + `/admin/${idUser}`)
+      .pipe(map((arr) => arr.map(dto => this.toApuesta(dto))));
+  }
+
+  eliminar(idApuesta: number, idUser: number): Observable<void> {
+    return this.http.delete<void>(`${this.base}/${idApuesta}/admin/${idUser}`);
+  }
+  getTop(): Observable<Apuesta[]> {
+    return this.http.get<ApuestaDTO[]>(`${this.base}/top`)
+      .pipe(map((arr) => arr.map(dto => this.toApuesta(dto))));
+  }
+  getLast(): Observable<Apuesta[]> {
+    return this.http.get<ApuestaDTO[]>(`${this.base}/last`)
+      .pipe(map((arr) => arr.map(dto => this.toApuesta(dto))));
+  }
   getByUsuario(id: number): Observable<Apuesta[]> {
     return this.http.get<ApuestaDTO[]>(`${this.base}/usuarios/${id}`)
       .pipe(map(arr => arr.map(dto => this.toApuesta(dto))));

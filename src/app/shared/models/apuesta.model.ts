@@ -2,7 +2,8 @@ export enum ApuestaEstado {
   RESUELTA = 'Resuelta',
   ABIERTA = 'Abierta',
   CERRADA = 'Cerrada',
-  CANCELADA = 'Cancelada'
+  CANCELADA = 'Cancelada',
+  ELIMINADA = 'Eliminada'
 }
 
 

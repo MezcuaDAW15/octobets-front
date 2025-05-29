@@ -117,6 +117,10 @@
   <!-- GRID DE APUESTAS CON SCROLL -->
   <div class="relative flex-1 overflow-hidden rounded-3xl">
     <div class="absolute inset-0 overflow-auto">
+      <div *ngIf="apuestasFiltradas.length === 0"
+        class="col-span-full text-center text-text-secondary p-6 rounded-2xl bg-surface-light">
+        <p class="text-lg">No se han encontrado apuestas.</p>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
         <app-apuesta-big-card *ngFor="let apuesta of apuestasFiltradas" [titulo]="apuesta.titulo"
           [descripcion]="apuesta.descripcion" [estado]="apuesta.estado"

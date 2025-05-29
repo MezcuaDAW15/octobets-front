@@ -114,6 +114,10 @@
     <!-- GRID DE TICKETS -------------------------------------------------->
     <div class="relative flex-1 overflow-hidden rounded-3xl">
       <div class="absolute inset-0 overflow-auto">
+        <div *ngIf="ticketsFiltrados.length === 0"
+          class="col-span-full text-center text-text-secondary p-6 rounded-2xl bg-surface-light">
+          <p class="text-lg"> No se han encontrado tickets. </p>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-normal p-0.5">
           <!-- ticket -->
           <article *ngFor="let tk of ticketsFiltrados" class="bg-surface-light p-normal rounded-3xl flex flex-col gap-4
@@ -139,7 +143,7 @@
             <p class="text-text-secondary text-sm">
               Elegiste:
               <span class="font-semibold text-text-primary">{{ tk.opcion }}</span>
-              — cuota <span class="font-medium text-primary">{{ tk.cuota | number:'1.2-2':'es-ES'  }}</span>
+              — cuota <span class="font-medium text-primary">{{ tk.cuota | number:'1.2-2':'es-ES' }}</span>
             </p>
 
             <!-- Importe y ganancia / potencial -->

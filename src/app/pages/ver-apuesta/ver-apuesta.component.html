@@ -84,6 +84,10 @@
           <span *ngIf="apuesta.fechaCierre" class="chip">
             <mat-icon>event_busy</mat-icon>{{ apuesta.fechaCierre | date:'short' }}
           </span>
+          <button (click)="compartirPorWhatsApp()" class="chip">
+            <mat-icon>share</mat-icon>
+            Compartir
+          </button>
           <span class="chip ml-auto !bg-emerald-700 text-text-primary font-semibold">
             {{ apuesta.estado }}
           </span>

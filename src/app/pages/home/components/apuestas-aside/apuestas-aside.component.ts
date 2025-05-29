@@ -23,7 +23,7 @@ export class ApuestasAsideComponent implements OnInit {
 
   ) { }
   ngOnInit(): void {
-    this.apuestasService.getAll().subscribe((apuestas: Apuesta[]) => {
+    this.apuestasService.getLast().subscribe((apuestas: Apuesta[]) => {
       this.apuestas = apuestas;
     });
 

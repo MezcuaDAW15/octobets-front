@@ -20,7 +20,6 @@
           ¡Crear cuenta!
         </button>
       </div>
-
       <img src="/assets/images/triste.png" alt="Ilustración"
         class="w-32 md:w-40 mt-10 drop-shadow-2xl select-none pointer-events-none" />
     </section>
@@ -30,14 +29,16 @@
     <!-- HEADER -->
     <header class="mb-8 flex justify-between">
       <div>
-        <h1 class="text-4xl font-oswald text-text-primary">AJUSTES DE USUARIO</h1>
+        <h2 class="text-text-primary text-4xl font-oswald font-bold tracking-widest">
+          AJUSTES DE USUARIO
+        </h2>
         <p class="text-text-secondary">Actualiza tus datos y tu avatar.</p>
       </div>
-      <button class="flex items-center gap-2 px-5 py-2.5 rounded-full
+      <button class="flex items-center justify-center gap-2 px-5 py-2.5 rounded-full
            bg-surface-light hover:bg-primary/20 text-primary font-semibold
            transition" routerLink="/transacciones">
-        <mat-icon>receipt_long</mat-icon>
-        Ver historial de transacciones
+        <mat-icon class="" fontIcon="account_balance_wallet"></mat-icon>
+        Cartera
       </button>
     </header>
 

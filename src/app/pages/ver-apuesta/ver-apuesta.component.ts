@@ -88,7 +88,7 @@ export class VerApuestaComponent implements OnInit {
       error: () => {
         this.alerts.error('Error', 'No se pudo cargar la apuesta.');
         this.loading = false;
-        this.router.navigate(['/mis-apuestas']);
+        this.router.navigate(['/apuestas']);
       }
     });
   }
@@ -165,4 +165,12 @@ export class VerApuestaComponent implements OnInit {
   closeHelp(): void {
     this.showHelpModal = false;
   }
+
+  compartirPorWhatsApp(): void {
+    const enlace = `https://octobets.mezcu.com/apuestas/${this.apuesta.id}`;
+    const mensaje = encodeURIComponent(`¡Mira esta apuesta en Octobets!\n${enlace}`);
+    const url = `https://wa.me/?text=${mensaje}`;
+    window.open(url, '_blank');
+  }
+
 }
