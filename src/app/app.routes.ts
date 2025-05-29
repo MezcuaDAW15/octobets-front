@@ -13,74 +13,75 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TransaccionesComponent } from './pages/transacciones/transacciones.component';
 
 export const routes: Routes = [
-  { 
-    path: '', 
+  {
+    path: '',
     component: HomeComponent,
     data: { title: 'Inicio' }
   },
-  { 
-    path: 'apuestas', 
+  {
+    path: 'apuestas',
     component: ApuestasViewComponent,
     data: { title: 'Apuestas' }
   },
-  { 
-    path: 'mis-apuestas', 
+  {
+    path: 'mis-apuestas',
     component: MisApuestasComponent,
     data: { title: 'Mis Apuestas' }
   },
-  { 
-    path: 'apuestas/crear', 
+  {
+    path: 'apuestas/crear',
     component: CrearApuestaComponent,
     data: { title: 'Crear Apuesta' }
   },
-  { 
-    path: 'apuestas/tickets', 
+  {
+    path: 'apuestas/tickets',
     component: MisTicketsComponent,
     data: { title: 'Mis Tickets' }
   },
-  { 
-    path: 'login', 
-    component: LoginComponent, 
-    data: { 
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: {
       title: 'Iniciar Sesión',
-      sidebar: false 
+      sidebar: false
     }
   },
-  { 
-    path: 'registro', 
-    component: RegistroComponent, 
-    data: { 
+  {
+    path: 'registro',
+    component: RegistroComponent,
+    data: {
       title: 'Registro',
-      sidebar: false 
+      sidebar: false
     }
   },
-  { 
-    path: 'ajustes', 
+  {
+    path: 'ajustes',
     component: UsuarioConfigComponent,
     data: { title: 'Configuración de Usuario' }
   },
-  { 
-    path: 'cartera', 
+  {
+    path: 'cartera',
     component: CarteraComponent,
     data: { title: 'Mi Cartera' }
   },
-  { 
-    path: 'transacciones', 
+  {
+    path: 'transacciones',
     component: TransaccionesComponent,
     data: { title: 'Mis Transacciones' }
   },
-  { 
-    path: 'apuestas/:id', 
+  {
+    path: 'apuestas/:id',
     component: VerApuestaComponent,
     data: { title: 'Detalle de Apuesta' }
   },
-  { 
-    path: '**', 
-    component: NotFoundComponent, 
-    data: { 
+  {
+    path: '**',
+    component: NotFoundComponent,
+    data: {
       title: 'Página no encontrada',
-      sidebar: false 
+      sidebar: false
     }
   },
+
 
 ];
