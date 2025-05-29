@@ -11,6 +11,7 @@ import { UsuarioConfigComponent } from './pages/usuario-config/usuario-config.co
 import { CarteraComponent } from './pages/cartera/cartera.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TransaccionesComponent } from './pages/transacciones/transacciones.component';
+import { AdministracionComponent } from './pages/administracion/administracion.component';
 
 export const routes: Routes = [
   {
@@ -73,6 +74,11 @@ export const routes: Routes = [
     path: 'apuestas/:id',
     component: VerApuestaComponent,
     data: { title: 'Detalle de Apuesta' }
+  },
+  {
+    path: 'admin',
+    component: AdministracionComponent,
+    data: { title: 'Administración' }
   },
   {
     path: '**',

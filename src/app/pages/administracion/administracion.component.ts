@@ -73,7 +73,6 @@ export class AdministracionComponent implements OnInit {
       ).subscribe({
         next: () => {
           this.alertsService.success("Eliminada", 'Apuesta eliminada correctamente');
-          this.apuestas = this.apuestas.filter(a => a.id !== apuesta.id);
           this.filtrar();
         },
         error: err => {
