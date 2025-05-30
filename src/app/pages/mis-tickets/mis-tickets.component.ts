@@ -32,7 +32,7 @@ export class MisTicketsComponent implements OnInit {
   soloGanadoras = false;
 
   // enums para opciones de filtro
-  estados = Object.values(ApuestaEstado);
+  estados = Object.values(ApuestaEstado).filter(e => e !== ApuestaEstado.ELIMINADA) as ApuestaEstado[];
   tipos = Object.values(ApuestaTipo);
   constructor(
     private apuestasService: ApuestasService,
