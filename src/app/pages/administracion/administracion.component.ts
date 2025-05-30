@@ -52,7 +52,11 @@ export class AdministracionComponent implements OnInit {
         next: apuestas => {
           this.apuestas = apuestas;
           this.filtrar();
-        }, error: err => console.error('Error cargando apuestas', err)
+        }, error: err => {
+          this.alertsService.error("Error", 'Usuario no autorizado');
+          this.router.navigate(['/']);
+
+        }
       });
   }
 
@@ -73,6 +77,11 @@ export class AdministracionComponent implements OnInit {
       ).subscribe({
         next: () => {
           this.alertsService.success("Eliminada", 'Apuesta eliminada correctamente');
+          apuesta.estado = ApuestaEstado.ELIMINADA;
+          const index = this.apuestas.findIndex(a => a.id === apuesta.id);
+          if (index !== -1) {
+            this.apuestas[index] = apuesta;
+          }
           this.filtrar();
         },
         error: err => {
