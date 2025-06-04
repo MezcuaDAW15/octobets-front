@@ -63,10 +63,10 @@ export class VerApuestaComponent implements OnInit {
         this.apuesta = ap;
         return this.authService.currentUser$.pipe(
           take(1),
-          filter(u => true),
           switchMap(user => {
             const me = user ? String(user.id) : null;
             this.puedeApostar =
+              !!user &&
               ap.estado === ApuestaEstado.ABIERTA &&
               me !== ap.idCreador.toString();
             console.log('Puede apostar:', me, ap.idCreador, this.puedeApostar);
