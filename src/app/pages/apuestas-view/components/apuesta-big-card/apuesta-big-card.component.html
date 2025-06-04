@@ -3,7 +3,7 @@
     self-stretch max-w-full min-h-36
     p-4 rounded-3xl overflow-hidden
     bg-gradient-to-r from-success-dark to-surface
-    flex justify-between items-center gap-4
+    flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4
   ">
   <!-- Imagen fondo inset -->
   <div class="absolute -bottom-[30%] -left-[5%] -top-[-10%] w-3/5
@@ -12,21 +12,21 @@
   </div>
 
   <!-- Contenido -->
-  <div class="relative z-10 flex flex-col justify-between h-full w-2/4 min-w-[8rem]">
+  <div class="relative z-10 flex flex-col justify-between h-full w:full sm:w--2/4 min-w-[8rem]">
     <h3 class="text-text-primary text-xl font-semibold line-clamp-2 break-words">{{ titulo }}</h3>
     <p class="text-text-primary text-sm font-light line-clamp-2 break-words">{{ descripcion }}</p>
   </div>
 
   <!-- Estado rotado -->
-  <div class="h-full flex items-center justify-center w-12">
+  <div class="flex items-center justify-center w-full sm:h-full sm:w-12">
     <div
-      class="transform -rotate-90 origin-center text-text-primary text-base font-normal font-poppins whitespace-nowrap">
+      class="text-text-primary text-base font-normal font-poppins whitespace-nowrap sm:transform sm:-rotate-90 sm:origin-center">
       {{ estado }}
     </div>
   </div>
 
   <!-- Cuotas con sus descripciones -->
-  <div class="flex-1 h-full grid grid-cols-2 gap-x-4">
+  <div class="w-full sm:flex-1 h-full grid grid-cols-2 gap-x-4">
 
     <!-- Opcion 1  -->
     <div class="grid grid-rows-2 place-items-center">

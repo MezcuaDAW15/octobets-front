@@ -27,7 +27,7 @@
 
   <ng-template #contenidoVista>
     <!-- HEADER -->
-    <header class="mb-8 flex justify-between">
+    <header class="mb-8 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
       <div>
         <h2 class="text-text-primary text-4xl font-oswald font-bold tracking-widest">
           AJUSTES DE USUARIO
@@ -48,7 +48,8 @@
         <h2 class="text-2xl font-semibold mb-4">Tu Avatar</h2>
         <div class="grid grid-cols-3 gap-4">
           <button *ngFor="let av of avatars" (click)="selectedAvatar = av"
-            class="w-20 h-20 rounded-full overflow-hidden transition-shadow focus:outline-none" [ngClass]="selectedAvatar === av
+            class="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden transition-shadow focus:outline-none"
+            [ngClass]="selectedAvatar === av
             ? 'ring-4 ring-primary ring-offset-2'
             : 'hover:ring-2 hover:ring-primary/50'">
             <img src="/assets/images/avatars/{{ av }}" alt="Avatar {{ av }}" class="w-full h-full object-cover" />
@@ -101,7 +102,7 @@
         <!-- Error general -->
         <p *ngIf="formError" class="mt-6 text-red-600 text-center">{{ formError }}</p>
 
-        <div class="mt-6 flex justify-between items-center">
+        <div class="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <!-- Botón Guardar -->
           <button (click)="guardar()" [disabled]="loading" class="flex items-center gap-2 px-6 py-2 rounded-full
            bg-primary hover:bg-primary-dark text-white font-semibold
