@@ -31,7 +31,6 @@ La memoria completa del Proyecto Final de Ciclo (que describe tanto backend como
 - **Lenguaje**: TypeScript
 - **HTTP**: Angular HttpClient + Interceptores JWT
 - **Build Tool**: Angular CLI
-- **Animaciones**: GSAP
 
 ---
 
