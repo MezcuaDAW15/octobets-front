@@ -1,59 +1,59 @@
-# OctobetsFront
+# Octobets (Frontend · Angular + Tailwind)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.7.
+**Octobets** es una plataforma web para organizar **apuestas informales** entre amigos o comunidades, con **autenticación JWT**, **sistema de fichas** y pagos simulados vía **Stripe**.  
+Este repositorio contiene el **frontend** desarrollado con **Angular 19**, **Tailwind CSS** y **TypeScript**.
 
-## Development server
+> El **backend (Spring Boot)** está en: [octobets-backend](https://github.com/MezcuaDAW15/octobets).
 
-To start a local development server, run:
+---
 
+## 📎 Memoria del PFC
+La memoria completa del Proyecto Final de Ciclo (que describe tanto backend como frontend) está en el repositorio del backend, dentro de `docs/Memoria.pdf`.
+
+---
+
+## ✨ Características principales
+- **Interfaz responsive** con Tailwind CSS.
+- **Autenticación JWT** integrada con el backend.
+- **Gestión de apuestas**: crear, listar, participar y cerrar.
+- **Sistema de fichas**: visualización de saldo, recargas mediante Stripe (modo test).
+- **Panel de usuario** con historial económico.
+- **Panel de administración** con gestión de apuestas y usuarios.
+- **Componentes reutilizables** y navegación mediante Angular Router.
+- **Comunicación HTTP** con interceptores para tokens JWT.
+- **Animaciones** y transiciones fluidas.
+
+---
+
+## 🧱 Stack
+- **Framework**: Angular 19
+- **Estilos**: Tailwind CSS
+- **Lenguaje**: TypeScript
+- **HTTP**: Angular HttpClient + Interceptores JWT
+- **Build Tool**: Angular CLI
+- **Animaciones**: GSAP
+
+---
+
+## 🚀 Puesta en marcha
+
+### Requisitos
+- Node.js 20+
+- npm o yarn
+- Backend de Octobets corriendo (por defecto en `http://localhost:8080`)
+
+### Instalación y ejecución
 ```bash
-ng serve
-```
+# 1. Clonar repo
+git clone https://github.com/MezcuaDAW15/octobets-front.git
+cd octobets-front
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+# 2. Instalar dependencias
+npm install
 
-## Code scaffolding
+# 3. Configurar entorno
+cp src/environments/environment.example.ts src/environments/environment.ts
+# Editar URL del backend si es distinta
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# 4. Ejecutar en local
+npm start
